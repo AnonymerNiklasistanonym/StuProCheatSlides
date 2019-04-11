@@ -1,0 +1,271 @@
+\documentclass[10pt]{beamer}
+% Theme
+\usetheme{metropolis}
+% Get colors
+\usepackage{xcolor}
+% Get source code syntax highlighting
+\usepackage[cache=false]{minted}
+% Get CC doc license
+\usepackage[type={CC},modifier={by-nc-sa},version={3.0}]{doclicense}
+
+% Document information
+\newcommand*{\mytitleTitle}{Git Basics}
+\newcommand*{\mytitleSubtitle}{StuPro Cheat Slides}
+\newcommand*{\mytitle}{\mytitleSubtitle: \mytitleTitlet}
+\newcommand*{\myauthor}{Niklas Mikeler}
+\newcommand*{\mysubject}{StuPro - Multi-Kamera-System-Panorma-Aufnahmen - SS19}
+\newcommand*{\mydate}{18.04.2019}
+
+% Custom colors
+\definecolor{lightGreyCustom}{HTML}{e8e8e8}
+\definecolor{greyCustom}{HTML}{929292}
+%\setbeamercolor{normal text}{fg=black,bg=white}
+%\setbeamercolor{alerted text}{fg=highlightedText}
+
+% Document methods
+\newcommand{\urlCustom}[1]{\href{https://#1}{\textcolor{greyCustom}{\mintinline{sh}{#1}}}}
+
+% Title page
+\title{\mytitleTitle}
+\subtitle{\mytitleSubtitle}
+\date{\mydate}
+\subject{\mysubject}
+\keywords{\mytitleTitle, \mytitleSubtitle, \mysubject}
+\author{\myauthor}
+\institute{Universit{\"a}t Stuttgart}
+\titlegraphic{\hfill\includegraphics[height=1.5cm]{resources/picture_unistuttgart_logo_deutsch.pdf}}
+
+% Footer
+\setbeamertemplate{frame footer}{\mytitleSubtitle: \mytitleTitle \ by \myauthor}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{frame}{Table of contents}
+\setbeamertemplate{section in toc}[sections numbered]
+\tableofcontents[hideallsubsections]
+\end{frame}
+
+
+\section{The concept}
+
+\begin{frame}{The concept $\gg$ What is git?}
+\begin{itemize}
+	\item Git helps you to keep track of the changes/history of the source code in your directory/repository
+	\item This is not done by saving for each file a \textit{file-$\Delta$}, but by making a snapshot of all the files every time a change occurs (it even makes a checksum to be sure that nobody can change something unnoticed)
+	\item Nearly everything is performed locally without a network connection - like when you want to look at the complete history of the project you can just do it
+	\item When you fine with what you've done you can then upload all the changes at once to a server
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The concept $\gg$ The 3 sections and 3 stages of files}
+\begin{itemize}
+	\item The 3 file stages:
+	\begin{itemize}
+		\item Committed: \textit{The data is safely stored in the local database}
+		\item Modified: \textit{The data is modified but not committed}
+		\item Staged: \textit{The modified data is marked to go into the next commit snapshot}
+	\end{itemize}
+	\item The 3 main sections of any git project:
+	\begin{itemize}
+		\item \mintinline{sh}{.git} directory: \textit{In here all the metadata and the snapshot database is stored (This gets copied when you clone a git repository)}
+		\item Working directory: \textit{A single checkout of one version of the project pulled from the database from the \mintinline{sh}{.git} directory}
+		\item Staging area: \textit{One file that stores information about what will go into the next commit}
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The concept $\gg$ The basic git workflow I}
+\begin{enumerate}
+	\item You modify files in the project directory ($=$ working tree) \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_01_modify.sh}
+	\item You select which changes should go into the next commit snapshot by adding these changes to the staging area \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_02_stage.sh}
+	\item You commit all the staged changes with message/description permanently to the \mintinline{sh}{.git} directory \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_03_commit.sh}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{The concept $\gg$ The basic git workflow II}
+\begin{enumerate}\setcounter{enumi}{3}
+	\item You can too remove files from the working tree (unstage) \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_04_unstage.sh}
+	\item You can remove all files from the working tree to reset it\\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_05_reset.sh}
+	\item You can get an report of which files are added and which are untracked (modified but not staged) \
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_06_status.sh}
+\end{enumerate}
+\end{frame}
+
+\section{Remote repository}
+
+\begin{frame}{Remote repository $\gg$ The basics I}
+\begin{itemize}
+\item You can also save the git database on a server
+\item Through this a team of people can access and change this database together
+\end{itemize}
+\begin{enumerate}
+	\item You can download ($=$ clone) this remote repository (its database) \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_01_clone.sh}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Remote repository $\gg$ The basics II}
+\begin{enumerate}\setcounter{enumi}{1}
+	\item You can always download the latest state of the database ($=$ all the commits from all the other people) \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_02_pull.sh}
+	\item And of course you can upload your committed changes \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_02_push.sh}
+\end{enumerate}
+\begin{itemize}
+	\item The problem is that in such a situation many things can suddenly happen like:
+	\begin{itemize}
+		\item Someone was editing the same file as you currently do and pushes his changes before you to the server
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Merging/Conflicts}
+
+\begin{frame}{Merging $\gg$ Why is it making my life so much worse?}
+\begin{itemize}
+	\item Without merging a situation where two people edit the same file and both push their changes to the server would be really painful
+	\item The git protocol in this situation first checks if the changes are in conflict (if both user added lines in different places it just merges them)
+	\item But if both user edited on the same line or something else git will ask you to solve this mess
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Merging $\gg$ Create a merge conflict}
+\begin{itemize}
+	\item The following script simulates the creation of a merge conflict in a file on one line:
+	\href{https://jonathanmh.com/how-to-create-a-git-merge-conflict/}{\beamergotobutton{Link}} 
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_03_create_conflict.sh}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Merging $\gg$ How does a merge conflict look?}
+\begin{itemize}
+	\item It looks complicated but is easy to solve if you know why it looks that way:
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_04_create_conflict_output.sh}
+	\begin{itemize}
+		\item The area above the \mintinline{diff}{=======} is the content on this line you currently have, and the other is the content that another person made before you on the same line
+		\item As simple as it comes you are now the person to solve this by just deciding which of the lines you want - or a combination of both?
+		\item If you have decided - it's just a text file... edit it so that the file looks for example like the following:
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_05_create_conflict_solved.sh}
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Merging $\gg$ Vim $\gg$ How to enter/exit/save}
+\begin{itemize}
+\item It's quite possible if you use git in the terminal that suddenly a weird text editor pops up
+\item This text editor is called vim and it's no that simple to use it
+\end{itemize}
+\begin{enumerate}
+	\item Vim has 2 modes/states: Insert and Command (default)
+	\item In short: in Command you can enter commands like \mintinline{sh}{:w} (save the file), \mintinline{sh}{:wq} (write and quit), \mintinline{sh}{:q} (quit) or \mintinline{sh}{:fq} (force quit)
+	\item To get from this mode to the insert mode where you can edit text just like in a normal text editor simply press the key \mintinline{sh}{i}
+	\item To get back from there to the Command mode press the \mintinline{sh}{Esc} key
+\end{enumerate}
+\end{frame}
+
+\section{Branches}
+
+\begin{frame}{Branches $\gg$ Create, delete}
+\begin{center}
+\begin{itemize}
+\item There is still the problem that if you have many people in one project who all constantly push to one repository that the history is unusable/unreadable $+$ constantly merge conflicts for everyone
+\item This problem is solved by having branches that can be based on any commit snapshot (initially everything is on the \mintinline{sh}{master} branch)
+\end{itemize}
+\begin{enumerate}
+	\item You can ask which branch you are on \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_01_branch.sh}
+	\item You can create a new branch based on the currently latest commit \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_02_create.sh}
+	\item And of course you can also switch your working tree to any branch \\
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_03_checkout.sh}
+\end{enumerate}
+\end{center}
+\end{frame}
+
+\begin{frame}{Branches $\gg$ Merge}
+\begin{center}
+	\begin{enumerate}\setcounter{enumi}{3}
+		\item If it's the right time and your feature was implemented on the branch you can merge it with another branch \\
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_04_merge.sh}
+	\end{enumerate}
+\end{center}
+\end{frame}
+
+\section{Rebase}
+
+\begin{frame}{Rebase $\gg$ What can it do and when should you use it?}
+\begin{center}
+\begin{itemize}
+\item Rebase makes it possible to
+\begin{enumerate}
+	\item Combine commits
+	\item Forget commits
+	\item Rename commits
+\end{enumerate}
+\item Git will internally create new commits which invalidates the checksums, so only use this if you know what it does!
+\item \textbf{Don't rebase public history!!} Only do it \textbf{\textit{before}} you push it to the server!
+\end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}{Rebase $\gg$ Combine/delete commits from history}
+\begin{center}
+	\begin{enumerate}
+		\item First you need to find the checksum of the origin commit since when you want to change it
+		\begin{itemize}
+			\item For example if you want to merge the last 4 commits you want to find the 4th latest checksum
+		\end{itemize}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_01_checksums.sh}
+	\item Then start the rebase
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_02_rebase.sh}
+	\item Then you get a document where you can \mintinline{sh}{p} pick (keep), \mintinline{sh}{r} reword (rename title + description), \mintinline{sh}{d} drop (remove), \mintinline{sh}{s} squash commits (keep it, but integrate into the previous commit), \mintinline{sh}{f} fix-up commits (keep it, but integrate into the previous commit and forget commit message)
+	\item If you save the file all your changes will be applied
+	\end{enumerate}
+\end{center}
+\end{frame}
+
+\section{Undos}
+
+\begin{frame}{Undos $\gg$ Staged files}
+\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_01_stage_files.sh}
+\end{frame}
+
+\begin{frame}{Undos $\gg$ Last commit}
+\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_02_last_commit.sh}
+\end{frame}
+
+\begin{frame}{Undos $\gg$ Hard reset all changes to a commit}
+\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_03_hard_reset.sh}
+\end{frame}
+
+
+\section{Other}
+
+\begin{frame}{Other $\gg$ Sign commits}
+\end{frame}
+
+\begin{frame}{Other $\gg$ Git subroutines commits}
+\end{frame}
+
+
+\begin{frame}{Links}
+
+\begin{itemize}
+\item\urlCustom{https://git-scm.com/book/en/v2}
+\item\urlCustom{http://rogerdudler.github.io/git-guide/2}
+\item\urlCustom{https://www.git-tower.com/learn/git/faq/}
+\end{itemize}
+
+\begin{center}\doclicenseThis\end{center}
+
+\end{frame}
+
+\end{document}

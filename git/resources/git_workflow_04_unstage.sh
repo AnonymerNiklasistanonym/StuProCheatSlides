@@ -1,0 +1,1 @@
+git remove newFile.txt
