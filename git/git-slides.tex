@@ -232,6 +232,14 @@
 \end{center}
 \end{frame}
 
+\begin{frame}{Rebase $\gg$ Example file}
+\begin{center}
+	\begin{enumerate}
+		\item Show the rebase text file
+	\end{enumerate}
+\end{center}
+\end{frame}
+
 \section{Undos}
 
 \begin{frame}{Undos $\gg$ Staged files}
@@ -248,6 +256,18 @@
 
 
 \section{Other}
+
+\begin{frame}{Other $\gg$ Don't track files using a \mintinline{diff}{.gitignore} file}
+\begin{itemize}
+	\item If your for example build binaries in the project directory git will always track it
+	\item This is not a problem, but something that you can get behind by telling git which files should it shouldn't track (like \mintinline{diff}{build.exe}), because only the source code should end up in the repository
+	\item Therefore just create a text file called \mintinline{diff}{.gitignore} in which you can add rules for which files to ignore in this and all sub directories
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/.gitignore}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Other $\gg$ Git submodules}
+\end{frame}
 
 \begin{frame}{Other $\gg$ Sign commits}
 \end{frame}

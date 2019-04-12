@@ -1,0 +1,11 @@
+# A line starting with a "#" is a comment
+./test.txt # Ignore the file "test.txt" in this directory
+test.txt   # Ignore all "test.txt" files in this and all subdirectories
+*.md       # Ignore all ".md" files in this and all subdirectories
+./test     # Ignore the directory "test" in this directory
+# An "!" prefix negates the pattern
+lib/model/*      # ignore everything in the directory
+!lib/model/foo   # except foo
+# Use "**" to catch all files that match the pattern "*.pdf"
+# in all subdirectories "*.pdf" matches any file that is a PDF file
+/src/main/**/*.pdf
