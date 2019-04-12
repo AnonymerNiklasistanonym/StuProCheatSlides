@@ -1,1 +1,1 @@
-git reflog
+git reflog # or "git log"

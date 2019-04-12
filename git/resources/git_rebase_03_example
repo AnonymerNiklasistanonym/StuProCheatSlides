@@ -1,0 +1,13 @@
+pick fd84b6b Previous commit
+pick 9e64e94 Commit before the latest
+pick b21ea02 Latest commit
+
+# Rebase 486bb03..b21ea02 onto 486bb03 (3 commands)
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup <commit> = like "squash", but discard this commit's log message
+# d, drop <commit> = remove commit

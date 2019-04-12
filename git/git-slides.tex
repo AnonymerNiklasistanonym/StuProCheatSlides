@@ -14,7 +14,7 @@
 \newcommand*{\mytitle}{\mytitleSubtitle: \mytitleTitlet}
 \newcommand*{\myauthor}{Niklas Mikeler}
 \newcommand*{\mysubject}{StuPro - Multi-Kamera-System-Panorma-Aufnahmen - SS19}
-\newcommand*{\mydate}{18.04.2019}
+\newcommand*{\mydate}{12.04.2019}
 
 % Custom colors
 \definecolor{lightGreyCustom}{HTML}{e8e8e8}
@@ -99,6 +99,18 @@
 \end{enumerate}
 \end{frame}
 
+\begin{frame}{The concept $\gg$ \mintinline{sh}{git log}}
+\begin{itemize}
+	\item You have also many options to display the commits in the console 
+	\begin{itemize}
+		\item The most basic way (displays all commits from latest)
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_log_01_normal.sh}
+		\item You can add more options to get more specified results\\
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_log_02_options.sh}
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
 \section{Remote repository}
 
 \begin{frame}{Remote repository $\gg$ The basics I}
@@ -173,7 +185,7 @@
 
 \section{Branches}
 
-\begin{frame}{Branches $\gg$ Create, delete}
+\begin{frame}{Branches $\gg$ Create, switch}
 \begin{center}
 \begin{itemize}
 \item There is still the problem that if you have many people in one project who all constantly push to one repository that the history is unusable/unreadable $+$ constantly merge conflicts for everyone
@@ -190,11 +202,28 @@
 \end{center}
 \end{frame}
 
-\begin{frame}{Branches $\gg$ Merge}
+\begin{frame}{Branches $\gg$ Merge, push, delete}
 \begin{center}
 	\begin{enumerate}\setcounter{enumi}{3}
-		\item If it's the right time and your feature was implemented on the branch you can merge it with another branch \\
+		\item If it's the right time and your feature was implemented on the branch you can merge it with another branch
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_04_merge.sh}
+		\item To push a branch to the repository use
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_05_push.sh}
+		\item A local branch can easily be deleted
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_06_delete.sh}
+		\item A remote branch can be deleted with
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_07_delete_remote.sh}
+	\end{enumerate}
+\end{center}
+\end{frame}
+
+\begin{frame}{Branches $\gg$ View, orphan}
+\begin{center}
+	\begin{enumerate}\setcounter{enumi}{7}
+		\item You can even create a branch from scratch as an orphan (no history)
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_08_orphan.sh}
+		\item You can also visualize branches and their commits in the terminal
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_09_log.sh}
 	\end{enumerate}
 \end{center}
 \end{frame}
@@ -234,58 +263,104 @@
 
 \begin{frame}{Rebase $\gg$ Example file}
 \begin{center}
-	\begin{enumerate}
-		\item Show the rebase text file
-	\end{enumerate}
+	\begin{itemize}
+		\item This is how a rebase file looks like
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_03_example}
+		\item Edit it with any editor: \mintinline{sh}{.git/rebase-merge/git-rebase-todo}
+		\item You can any time leave a rebase (close the file), abort it \mintinline{sh}{git rebase --abort} or tell git to continue the rebase if everything is alright \mintinline{sh}{git rebase --continue}
+	\end{itemize}
 \end{center}
 \end{frame}
 
 \section{Undos}
 
-\begin{frame}{Undos $\gg$ Staged files}
-\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_01_stage_files.sh}
-\end{frame}
-
-\begin{frame}{Undos $\gg$ Last commit}
-\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_02_last_commit.sh}
-\end{frame}
-
-\begin{frame}{Undos $\gg$ Hard reset all changes to a commit}
-\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_03_hard_reset.sh}
+\begin{frame}{Undos}
+\begin{enumerate}
+	\item Staged files
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_01_stage_files.sh}
+	\item Last commit
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_02_last_commit.sh}
+	\item  Hard reset all changes to a commit
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_03_hard_reset.sh}
+\end{enumerate}
 \end{frame}
 
 
 \section{Other}
 
-\begin{frame}{Other $\gg$ Don't track files using a \mintinline{diff}{.gitignore} file}
+\begin{frame}{Other $\gg$ Don't track files using a \mintinline{sh}{.gitignore} file}
 \begin{itemize}
 	\item If your for example build binaries in the project directory git will always track it
-	\item This is not a problem, but something that you can get behind by telling git which files should it shouldn't track (like \mintinline{diff}{build.exe}), because only the source code should end up in the repository
-	\item Therefore just create a text file called \mintinline{diff}{.gitignore} in which you can add rules for which files to ignore in this and all sub directories
+	\item This is not a problem, but something that you can get behind by telling git which files should it shouldn't track (like \mintinline{sh}{build.exe}), because only the source code should end up in the repository
+	\item Therefore just create a text file called \mintinline{sh}{.gitignore} in which you can add rules for which files to ignore in this and all sub directories
 	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/.gitignore}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Other $\gg$ Git submodules}
+\begin{frame}{Other $\gg$ Git submodules I}
+\begin{itemize}
+	\item If you for example want to add another library/dependency to Git there is a better way then just to copy the other repository into your repository (You only want your source code in your repository)
+	\item This is why you have the option to add another repository as a submodule which will essentially only save the commit hash and URL of the other repository in the database
+	\item On each host computer git will then download the other repository in the designated directory
+	\begin{enumerate}
+		\item Add a submodule
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_submodule_01_add.sh}
+	\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Other $\gg$ Git submodules II}
+	\begin{enumerate}\setcounter{enumi}{1}
+		\item Update a submodule
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_submodule_02_update.sh}
+		\item Push submodule update
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_submodule_03_push_update.sh}
+		\item Remove a submodule
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_submodule_04_remove.sh}
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{Other $\gg$ Sign commits}
+\begin{enumerate}
+	\item First you need to create a GPG key and get the public key part
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_01_gpg_key.sh}
+	\item Then you need to tell GitHub/-Lab about it (profile, GPG key)
+	\item Then you need to tell your git repository about it
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_02_register_key.sh}
+	\item Now you can make signed commits for an extra layer of security
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_03_signed_commit.sh}
+\end{enumerate}
 \end{frame}
 
-\begin{frame}{Other $\gg$ Git subroutines commits}
+\begin{frame}{Other $\gg$ Git hooks}
+\begin{itemize}
+	\item You have with Git even the option to run custom scripts on some occasions (before a commit, etc.)
+	\item This can be highly customized/complex and the slide should just bring it to your attention instead of explaining everything
+	\item Example \mintinline{sh}{pre-commit}:
+	\begin{enumerate}
+		\item Go into the directory \mintinline{sh}{.git/hooks} and create the file for the script
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_hooks_01_create.sh}
+		\item Now you can write for example a shell script that runs tests and if there are errors returns \mintinline{sh}{1}
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_hooks_02_example.sh}
+	\end{enumerate}
+\end{itemize}
 \end{frame}
 
+\begin{frame}{Issues/Ideas + Do you need to know anything else?}
+\begin{itemize}
+	\item If there are any issues (things that are wrong/missing) tell me and I update the file!
+	\item You probably also want to know what a \textbf{pull-/merge request} and \textbf{Issue} is if you work with GitLab/GitHub!
+\end{itemize}
+\end{frame}
 
 \begin{frame}{Links}
-
-\begin{itemize}
-\item\urlCustom{https://git-scm.com/book/en/v2}
-\item\urlCustom{http://rogerdudler.github.io/git-guide/2}
-\item\urlCustom{https://www.git-tower.com/learn/git/faq/}
-\end{itemize}
-
-\begin{center}\doclicenseThis\end{center}
-
+	\begin{itemize}
+		\item\urlCustom{https://git-scm.com/book/en/v2}
+		\item\urlCustom{http://rogerdudler.github.io/git-guide/2}
+		\item\urlCustom{https://www.git-tower.com/learn/git/faq}
+		\item\urlCustom{https://githooks.com}
+	\end{itemize}
+	\begin{center}\doclicenseThis\end{center}
 \end{frame}
 
 \end{document}
