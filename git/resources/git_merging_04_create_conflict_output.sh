@@ -1,5 +1,8 @@
+master first line
+master second line
 <<<<<<< HEAD
-echo "Hello World!"
+master third line
 =======
-echo "Hello World (Made by another user)"
->>>>>>> new_branch
+new_other_branch third line
+>>>>>>> new_other_branch
+Hello world :D

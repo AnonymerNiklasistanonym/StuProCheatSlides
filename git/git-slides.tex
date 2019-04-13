@@ -75,18 +75,20 @@
 \end{frame}
 
 \begin{frame}{The concept $\gg$ The basic git workflow I}
-	\begin{enumerate}
+	\begin{enumerate}\setcounter{enumi}{-1}
+		\item You first need to initialize git in your directory making it a so called \textit{repository} in which you now (and all subdirectories) can use git
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_00_init.sh}
 		\item You modify files in the project directory ($=$ working tree)
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_01_modify.sh}
 		\item You select which changes should go into the next commit snapshot by adding these changes to the staging area
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_02_stage.sh}
-		\item You commit all the staged changes with message/description permanently to the \mintinline{sh}{.git} directory
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_03_commit.sh}
 	\end{enumerate}
 \end{frame}
 
 \begin{frame}{The concept $\gg$ The basic git workflow II}
-	\begin{enumerate}\setcounter{enumi}{3}
+	\begin{enumerate}\setcounter{enumi}{2}
+		\item You commit all the staged changes with message/description permanently to the \mintinline{sh}{.git} directory
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_03_commit.sh}
 		\item You can too remove files from the working tree (unstage)
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_04_unstage.sh}
 		\item You can remove all files from the working tree to reset it
@@ -177,24 +179,30 @@
 \begin{frame}{Merging $\gg$ How does a merge conflict look?}
 	\begin{itemize}
 		\item It looks complicated but is easy to solve if you know why it looks that way:
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_04_create_conflict_output.sh}
-		\begin{itemize}
-			\item The area above the \mintinline{diff}{=======} is the content on this line you currently have, and the other is the content that another person made before you on the same line
-			\item As simple as it comes you are now the person to solve this by just deciding which of the lines you want - or a combination of both?
-			\item If you have decided - it's just a text file... edit it so that the file looks for example like the following:
-			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_05_create_conflict_solved.sh}
-		\end{itemize}
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{diff}{./resources/git_merging_04_create_conflict_output.sh}
+		\item The area above the \mintinline{diff}{=======} is the content on this line you currently have, and the other is the content that you wanted git to merge into the current file, but git couldn't merge it automatically
+		\item Git now gives you the responsibility to edit the text file the correct way
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Merging $\gg$ Solves a merge conflict?}
+\begin{itemize}
+		\item It's just a text file, so you can simply edit it with any text editor like to the following:
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_05_create_conflict_solved.sh}
+		\item Now stage the file and commit it (and call it a merge)
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_06_merge_commit.sh}
+		\item \textit{Always be sure to commit all your changes before you merge something!}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Merging $\gg$ Vim $\gg$ How to enter/exit/save}
 	\begin{itemize}
 		\item It's quite possible if you use git in the terminal that suddenly a weird text editor pops up
-		\item This text editor is called vim and it's no that simple to use it
+		\item This text editor is called vim and it's not that simple to use it
 	\end{itemize}
 	\begin{enumerate}
 		\item Vim has 2 modes/states: Insert and Command (default)
-		\item In short: in Command you can enter commands like \mintinline{sh}{:w} (save the file), \mintinline{sh}{:wq} (write and quit), \mintinline{sh}{:q} (quit) or \mintinline{sh}{:fq} (force quit)
+		\item In short: in Command you can enter commands like \mintinline{sh}{:w} (save the file), \mintinline{sh}{:wq} (write and quit), \mintinline{sh}{:q} (quit), \mintinline{sh}{:fq} (force quit), \mintinline{sh}{u} (undo) and \mintinline{sh}{Ctrl} $+$ \mintinline{sh}{r} (redo)
 		\item To get from this mode to the insert mode where you can edit text just like in a normal text editor simply press the key \mintinline{sh}{i}
 		\item To get back from there to the Command mode press the \mintinline{sh}{Esc} key
 	\end{enumerate}
