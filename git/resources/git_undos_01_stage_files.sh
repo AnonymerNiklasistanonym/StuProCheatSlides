@@ -1,4 +1,4 @@
 # Remove one staged file
-git rm staged_file
+git reset -- staged_file
 # Remove all staged files
 git reset

@@ -1,1 +1,1 @@
-git remove newFile.txt
+git reset -- newFile.txt

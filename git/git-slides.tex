@@ -14,13 +14,11 @@
 \newcommand*{\mytitle}{\mytitleSubtitle: \mytitleTitlet}
 \newcommand*{\myauthor}{Niklas Mikeler}
 \newcommand*{\mysubject}{StuPro - Multi-Kamera-System-Panorma-Aufnahmen - SS19}
-\newcommand*{\mydate}{12.04.2019}
+\newcommand*{\mydate}{13.04.2019}
 
 % Custom colors
 \definecolor{lightGreyCustom}{HTML}{e8e8e8}
 \definecolor{greyCustom}{HTML}{929292}
-%\setbeamercolor{normal text}{fg=black,bg=white}
-%\setbeamercolor{alerted text}{fg=highlightedText}
 
 % Document methods
 \newcommand{\urlCustom}[1]{\href{https://#1}{\textcolor{greyCustom}{\mintinline{sh}{#1}}}}
@@ -38,172 +36,188 @@
 % Footer
 \setbeamertemplate{frame footer}{\mytitleSubtitle: \mytitleTitle \ by \myauthor}
 
+
 \begin{document}
 
 \maketitle
 
-
 \begin{frame}{Table of contents}
-\setbeamertemplate{section in toc}[sections numbered]
-\tableofcontents[hideallsubsections]
+	\setbeamertemplate{section in toc}[sections numbered]
+	\tableofcontents[hideallsubsections]
 \end{frame}
-
 
 \section{The concept}
 
 \begin{frame}{The concept $\gg$ What is git?}
-\begin{itemize}
-	\item Git helps you to keep track of the changes/history of the source code in your directory/repository
-	\item This is not done by saving for each file a \textit{file-$\Delta$}, but by making a snapshot of all the files every time a change occurs (it even makes a checksum to be sure that nobody can change something unnoticed)
-	\item Nearly everything is performed locally without a network connection - like when you want to look at the complete history of the project you can just do it
-	\item When you fine with what you've done you can then upload all the changes at once to a server
-\end{itemize}
+	\begin{itemize}
+		\item Git helps you to keep track of the changes/history of the source code in your directory/repository
+		\item This is not done by saving for each file a \textit{file-$\Delta$}, but by making a snapshot of all the files every time a change occurs (it even makes a checksum to be sure that nobody can change something unnoticed)
+		\item Nearly everything is performed locally without a network connection - like when you want to look at the complete history of the project you can just do it
+		\item When you fine with what you've done you can then upload all the changes at once to a server
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{The concept $\gg$ The 3 sections and 3 stages of files}
-\begin{itemize}
-	\item The 3 file stages:
 	\begin{itemize}
-		\item Committed: \textit{The data is safely stored in the local database}
-		\item Modified: \textit{The data is modified but not committed}
-		\item Staged: \textit{The modified data is marked to go into the next commit snapshot}
+		\item The 3 file stages:
+		\begin{itemize}
+			\item Committed: \textit{The data is safely stored in the local database}
+			\item Modified: \textit{The data is modified but not committed}
+			\item Staged: \textit{The modified data is marked to go into the next commit snapshot}
+		\end{itemize}
+		\item The 3 main sections of any git project:
+		\begin{itemize}
+			\item \mintinline{sh}{.git} directory: \textit{In here all the metadata and the snapshot database is stored (This gets copied when you clone a git repository)}
+			\item Working directory: \textit{A single checkout of one version of the project pulled from the database from the \mintinline{sh}{.git} directory}
+			\item Staging area: \textit{One file that stores information about what will go into the next commit}
+		\end{itemize}
 	\end{itemize}
-	\item The 3 main sections of any git project:
-	\begin{itemize}
-		\item \mintinline{sh}{.git} directory: \textit{In here all the metadata and the snapshot database is stored (This gets copied when you clone a git repository)}
-		\item Working directory: \textit{A single checkout of one version of the project pulled from the database from the \mintinline{sh}{.git} directory}
-		\item Staging area: \textit{One file that stores information about what will go into the next commit}
-	\end{itemize}
-\end{itemize}
 \end{frame}
 
 \begin{frame}{The concept $\gg$ The basic git workflow I}
-\begin{enumerate}
-	\item You modify files in the project directory ($=$ working tree) \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_01_modify.sh}
-	\item You select which changes should go into the next commit snapshot by adding these changes to the staging area \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_02_stage.sh}
-	\item You commit all the staged changes with message/description permanently to the \mintinline{sh}{.git} directory \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_03_commit.sh}
-\end{enumerate}
+	\begin{enumerate}
+		\item You modify files in the project directory ($=$ working tree)
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_01_modify.sh}
+		\item You select which changes should go into the next commit snapshot by adding these changes to the staging area
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_02_stage.sh}
+		\item You commit all the staged changes with message/description permanently to the \mintinline{sh}{.git} directory
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_03_commit.sh}
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{The concept $\gg$ The basic git workflow II}
-\begin{enumerate}\setcounter{enumi}{3}
-	\item You can too remove files from the working tree (unstage) \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_04_unstage.sh}
-	\item You can remove all files from the working tree to reset it\\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_05_reset.sh}
-	\item You can get an report of which files are added and which are untracked (modified but not staged) \
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_06_status.sh}
-\end{enumerate}
+	\begin{enumerate}\setcounter{enumi}{3}
+		\item You can too remove files from the working tree (unstage)
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_04_unstage.sh}
+		\item You can remove all files from the working tree to reset it
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_05_reset.sh}
+		\item You can get an report of which files are added and which are untracked (modified but not staged)
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_workflow_06_status.sh}
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{The concept $\gg$ \mintinline{sh}{git log}}
-\begin{itemize}
-	\item You have also many options to display the commits in the console 
 	\begin{itemize}
-		\item The most basic way (displays all commits from latest)
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_log_01_normal.sh}
-		\item You can add more options to get more specified results\\
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_log_02_options.sh}
+		\item You have also many options to display the commits in the console
+		\begin{itemize}
+			\item The most basic way (displays all commits from latest)
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_log_01_normal.sh}
+			\item You can add more options to get more specified results
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_log_02_options.sh}
+		\end{itemize}
 	\end{itemize}
-\end{itemize}
+\end{frame}
+
+\begin{frame}{The concept $\gg$ History, can I do more than to look at it?}
+	\begin{enumerate}
+		\item You can go back to any commit in your working tree
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_checkout_01_repo.sh}
+		\item You can even just roll back single files
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_checkout_02_single_file.sh}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{The concept $\gg$ See the difference}
+\begin{enumerate}
+	\item What is the difference from a file to the last commit?
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_diff_01_file.sh}
+	\item What is the difference of a file between branches?
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_diff_02_file_branches.sh}
+	\item What is the difference of a file between two commits?
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_diff_03_file_commits.sh}
+\end{enumerate}
 \end{frame}
 
 \section{Remote repository}
 
 \begin{frame}{Remote repository $\gg$ The basics I}
-\begin{itemize}
-\item You can also save the git database on a server
-\item Through this a team of people can access and change this database together
-\end{itemize}
-\begin{enumerate}
-	\item You can download ($=$ clone) this remote repository (its database) \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_01_clone.sh}
-\end{enumerate}
+	\begin{itemize}
+		\item You can also save the git database on a server
+		\item Through this a team of people can access and change this database together
+	\end{itemize}
+	\begin{enumerate}
+		\item You can download ($=$ clone) this remote repository (its database)
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_01_clone.sh}
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{Remote repository $\gg$ The basics II}
-\begin{enumerate}\setcounter{enumi}{1}
-	\item You can always download the latest state of the database ($=$ all the commits from all the other people) \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_02_pull.sh}
-	\item And of course you can upload your committed changes \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_02_push.sh}
-\end{enumerate}
-\begin{itemize}
-	\item The problem is that in such a situation many things can suddenly happen like:
+	\begin{enumerate}\setcounter{enumi}{1}
+		\item You can always download the latest state of the database ($=$ all the commits from all the other people)
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_02_pull.sh}
+		\item And of course you can upload your committed changes
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_remote_repository_02_push.sh}
+	\end{enumerate}
 	\begin{itemize}
-		\item Someone was editing the same file as you currently do and pushes his changes before you to the server
+		\item The problem is that in such a situation many things can suddenly happen like:
+		\begin{itemize}
+			\item Someone was editing the same file as you currently do and pushes his changes before you to the server
+		\end{itemize}
 	\end{itemize}
-\end{itemize}
 \end{frame}
 
 \section{Merging/Conflicts}
 
 \begin{frame}{Merging $\gg$ Why is it making my life so much worse?}
-\begin{itemize}
-	\item Without merging a situation where two people edit the same file and both push their changes to the server would be really painful
-	\item The git protocol in this situation first checks if the changes are in conflict (if both user added lines in different places it just merges them)
-	\item But if both user edited on the same line or something else git will ask you to solve this mess
-\end{itemize}
+	\begin{itemize}
+		\item Without merging a situation where two people edit the same file and both push their changes to the server would be really painful
+		\item The git protocol in this situation first checks if the changes are in conflict (if both user added lines in different places it just merges them)
+		\item But if both user edited on the same line or something else git will ask you to solve this mess
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Merging $\gg$ Create a merge conflict}
-\begin{itemize}
-	\item The following script simulates the creation of a merge conflict in a file on one line:
-	\href{https://jonathanmh.com/how-to-create-a-git-merge-conflict/}{\beamergotobutton{Link}} 
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_03_create_conflict.sh}
-\end{itemize}
+	\begin{itemize}
+		\item The following script simulates the creation of a merge conflict in a file on one line:
+		\href{https://jonathanmh.com/how-to-create-a-git-merge-conflict/}{\beamergotobutton{Link}}
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_03_create_conflict.sh}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Merging $\gg$ How does a merge conflict look?}
-\begin{itemize}
-	\item It looks complicated but is easy to solve if you know why it looks that way:
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_04_create_conflict_output.sh}
 	\begin{itemize}
-		\item The area above the \mintinline{diff}{=======} is the content on this line you currently have, and the other is the content that another person made before you on the same line
-		\item As simple as it comes you are now the person to solve this by just deciding which of the lines you want - or a combination of both?
-		\item If you have decided - it's just a text file... edit it so that the file looks for example like the following:
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_05_create_conflict_solved.sh}
+		\item It looks complicated but is easy to solve if you know why it looks that way:
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_04_create_conflict_output.sh}
+		\begin{itemize}
+			\item The area above the \mintinline{diff}{=======} is the content on this line you currently have, and the other is the content that another person made before you on the same line
+			\item As simple as it comes you are now the person to solve this by just deciding which of the lines you want - or a combination of both?
+			\item If you have decided - it's just a text file... edit it so that the file looks for example like the following:
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_merging_05_create_conflict_solved.sh}
+		\end{itemize}
 	\end{itemize}
-\end{itemize}
 \end{frame}
 
 \begin{frame}{Merging $\gg$ Vim $\gg$ How to enter/exit/save}
-\begin{itemize}
-\item It's quite possible if you use git in the terminal that suddenly a weird text editor pops up
-\item This text editor is called vim and it's no that simple to use it
-\end{itemize}
-\begin{enumerate}
-	\item Vim has 2 modes/states: Insert and Command (default)
-	\item In short: in Command you can enter commands like \mintinline{sh}{:w} (save the file), \mintinline{sh}{:wq} (write and quit), \mintinline{sh}{:q} (quit) or \mintinline{sh}{:fq} (force quit)
-	\item To get from this mode to the insert mode where you can edit text just like in a normal text editor simply press the key \mintinline{sh}{i}
-	\item To get back from there to the Command mode press the \mintinline{sh}{Esc} key
-\end{enumerate}
+	\begin{itemize}
+		\item It's quite possible if you use git in the terminal that suddenly a weird text editor pops up
+		\item This text editor is called vim and it's no that simple to use it
+	\end{itemize}
+	\begin{enumerate}
+		\item Vim has 2 modes/states: Insert and Command (default)
+		\item In short: in Command you can enter commands like \mintinline{sh}{:w} (save the file), \mintinline{sh}{:wq} (write and quit), \mintinline{sh}{:q} (quit) or \mintinline{sh}{:fq} (force quit)
+		\item To get from this mode to the insert mode where you can edit text just like in a normal text editor simply press the key \mintinline{sh}{i}
+		\item To get back from there to the Command mode press the \mintinline{sh}{Esc} key
+	\end{enumerate}
 \end{frame}
 
 \section{Branches}
 
 \begin{frame}{Branches $\gg$ Create, switch}
-\begin{center}
-\begin{itemize}
-\item There is still the problem that if you have many people in one project who all constantly push to one repository that the history is unusable/unreadable $+$ constantly merge conflicts for everyone
-\item This problem is solved by having branches that can be based on any commit snapshot (initially everything is on the \mintinline{sh}{master} branch)
-\end{itemize}
-\begin{enumerate}
-	\item You can ask which branch you are on \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_01_branch.sh}
-	\item You can create a new branch based on the currently latest commit \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_02_create.sh}
-	\item And of course you can also switch your working tree to any branch \\
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_03_checkout.sh}
-\end{enumerate}
-\end{center}
+	\begin{itemize}
+		\item There is still the problem that if you have many people in one project who all constantly push to one repository that the history is unusable/unreadable $+$ constantly merge conflicts for everyone
+		\item This problem is solved by having branches that can be based on any commit snapshot (initially everything is on the \mintinline{sh}{master} branch)
+	\end{itemize}
+	\begin{enumerate}
+		\item You can ask which branch you are on
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_01_branch.sh}
+		\item You can create a new branch based on the currently latest commit
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_02_create.sh}
+		\item And of course you can also switch your working tree to any branch
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_03_checkout.sh}
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{Branches $\gg$ Merge, push, delete}
-\begin{center}
 	\begin{enumerate}\setcounter{enumi}{3}
 		\item If it's the right time and your feature was implemented on the branch you can merge it with another branch
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_04_merge.sh}
@@ -214,99 +228,90 @@
 		\item A remote branch can be deleted with
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_07_delete_remote.sh}
 	\end{enumerate}
-\end{center}
 \end{frame}
 
 \begin{frame}{Branches $\gg$ View, orphan}
-\begin{center}
 	\begin{enumerate}\setcounter{enumi}{7}
 		\item You can even create a branch from scratch as an orphan (no history)
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_08_orphan.sh}
 		\item You can also visualize branches and their commits in the terminal
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_branches_09_log.sh}
 	\end{enumerate}
-\end{center}
 \end{frame}
 
 \section{Rebase}
 
 \begin{frame}{Rebase $\gg$ What can it do and when should you use it?}
-\begin{center}
-\begin{itemize}
-\item Rebase makes it possible to
-\begin{enumerate}
-	\item Combine commits
-	\item Forget commits
-	\item Rename commits
-\end{enumerate}
-\item Git will internally create new commits which invalidates the checksums, so only use this if you know what it does!
-\item \textbf{Don't rebase public history!!} Only do it \textbf{\textit{before}} you push it to the server!
-\end{itemize}
-\end{center}
+	\begin{itemize}
+		\item Rebase makes it possible to
+		\begin{enumerate}
+			\item Combine commits
+			\item Forget commits
+			\item Rename commits
+		\end{enumerate}
+		\item Git will internally create new commits which invalidates the checksums, so only use this if you know what it does!
+		\item \textbf{Don't rebase public history!!} Only do it \textbf{\textit{before}} you push it to the server!
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Rebase $\gg$ Combine/delete commits from history}
-\begin{center}
 	\begin{enumerate}
 		\item First you need to find the checksum of the origin commit since when you want to change it
 		\begin{itemize}
 			\item For example if you want to merge the last 4 commits you want to find the 4th latest checksum
 		\end{itemize}
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_01_checksums.sh}
-	\item Then start the rebase
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_02_rebase.sh}
-	\item Then you get a document where you can \mintinline{sh}{p} pick (keep), \mintinline{sh}{r} reword (rename title + description), \mintinline{sh}{d} drop (remove), \mintinline{sh}{s} squash commits (keep it, but integrate into the previous commit), \mintinline{sh}{f} fix-up commits (keep it, but integrate into the previous commit and forget commit message)
-	\item If you save the file all your changes will be applied
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_01_checksums.sh}
+		\item Then start the rebase
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_02_rebase.sh}
+		\item Then you get a document where you can \mintinline{sh}{p} pick (keep), \mintinline{sh}{r} reword (rename title + description), \mintinline{sh}{d} drop (remove), \mintinline{sh}{s} squash commits (keep it, but integrate into the previous commit), \mintinline{sh}{f} fix-up commits (keep it, but integrate into the previous commit and forget commit message)
+		\item If you save the file all your changes will be applied
 	\end{enumerate}
-\end{center}
 \end{frame}
 
 \begin{frame}{Rebase $\gg$ Example file}
-\begin{center}
 	\begin{itemize}
 		\item This is how a rebase file looks like
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_03_example}
 		\item Edit it with any editor: \mintinline{sh}{.git/rebase-merge/git-rebase-todo}
 		\item You can any time leave a rebase (close the file), abort it \mintinline{sh}{git rebase --abort} or tell git to continue the rebase if everything is alright \mintinline{sh}{git rebase --continue}
 	\end{itemize}
-\end{center}
 \end{frame}
 
 \section{Undos}
 
 \begin{frame}{Undos}
-\begin{enumerate}
-	\item Staged files
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_01_stage_files.sh}
-	\item Last commit
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_02_last_commit.sh}
-	\item  Hard reset all changes to a commit
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_03_hard_reset.sh}
-\end{enumerate}
+	\begin{enumerate}
+		\item Staged files
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_01_stage_files.sh}
+		\item Last commit
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_02_last_commit.sh}
+		\item  Hard reset all changes to a commit
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_undos_03_hard_reset.sh}
+	\end{enumerate}
 \end{frame}
 
 
 \section{Other}
 
 \begin{frame}{Other $\gg$ Don't track files using a \mintinline{sh}{.gitignore} file}
-\begin{itemize}
-	\item If your for example build binaries in the project directory git will always track it
-	\item This is not a problem, but something that you can get behind by telling git which files should it shouldn't track (like \mintinline{sh}{build.exe}), because only the source code should end up in the repository
-	\item Therefore just create a text file called \mintinline{sh}{.gitignore} in which you can add rules for which files to ignore in this and all sub directories
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/.gitignore}
-\end{itemize}
+	\begin{itemize}
+		\item If your for example build binaries in the project directory git will always track it
+		\item This is not a problem, but something that you can get behind by telling git which files should it shouldn't track (like \mintinline{sh}{build.exe}), because only the source code should end up in the repository
+		\item Therefore just create a text file called \mintinline{sh}{.gitignore} in which you can add rules for which files to ignore in this and all sub directories
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/.gitignore}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Other $\gg$ Git submodules I}
-\begin{itemize}
-	\item If you for example want to add another library/dependency to Git there is a better way then just to copy the other repository into your repository (You only want your source code in your repository)
-	\item This is why you have the option to add another repository as a submodule which will essentially only save the commit hash and URL of the other repository in the database
-	\item On each host computer git will then download the other repository in the designated directory
-	\begin{enumerate}
-		\item Add a submodule
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_submodule_01_add.sh}
-	\end{enumerate}
-\end{itemize}
+	\begin{itemize}
+		\item If you for example want to add another library/dependency to Git there is a better way then just to copy the other repository into your repository (You only want your source code in your repository)
+		\item This is why you have the option to add another repository as a submodule which will essentially only save the commit hash and URL of the other repository in the database
+		\item On each host computer git will then download the other repository in the designated directory
+		\begin{enumerate}
+			\item Add a submodule
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_submodule_01_add.sh}
+		\end{enumerate}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Other $\gg$ Git submodules II}
@@ -321,36 +326,36 @@
 \end{frame}
 
 \begin{frame}{Other $\gg$ Sign commits}
-\begin{enumerate}
-	\item First you need to create a GPG key and get the public key part
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_01_gpg_key.sh}
-	\item Then you need to tell GitHub/-Lab about it (profile, GPG key)
-	\item Then you need to tell your git repository about it
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_02_register_key.sh}
-	\item Now you can make signed commits for an extra layer of security
-	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_03_signed_commit.sh}
-\end{enumerate}
+	\begin{enumerate}
+		\item First you need to create a GPG key and get the public key part
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_01_gpg_key.sh}
+		\item Then you need to tell GitHub/-Lab about it (profile, GPG key)
+		\item Then you need to tell your git repository about it
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_02_register_key.sh}
+		\item Now you can make signed commits for an extra layer of security
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_03_signed_commit.sh}
+	\end{enumerate}
 \end{frame}
 
 \begin{frame}{Other $\gg$ Git hooks}
-\begin{itemize}
-	\item You have with Git even the option to run custom scripts on some occasions (before a commit, etc.)
-	\item This can be highly customized/complex and the slide should just bring it to your attention instead of explaining everything
-	\item Example \mintinline{sh}{pre-commit}:
-	\begin{enumerate}
-		\item Go into the directory \mintinline{sh}{.git/hooks} and create the file for the script
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_hooks_01_create.sh}
-		\item Now you can write for example a shell script that runs tests and if there are errors returns \mintinline{sh}{1}
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_hooks_02_example.sh}
-	\end{enumerate}
-\end{itemize}
+	\begin{itemize}
+		\item You have with Git even the option to run custom scripts on some occasions (before a commit, etc.)
+		\item This can be highly customized/complex and the slide should just bring it to your attention instead of explaining everything
+		\item Example \mintinline{sh}{pre-commit}:
+		\begin{enumerate}
+			\item Go into the directory \mintinline{sh}{.git/hooks} and create the file for the script
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_hooks_01_create.sh}
+			\item Now you can write for example a shell script that runs tests and if there are errors returns \mintinline{sh}{1}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_hooks_02_example.sh}
+		\end{enumerate}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Issues/Ideas + Do you need to know anything else?}
-\begin{itemize}
-	\item If there are any issues (things that are wrong/missing) tell me and I update the file!
-	\item You probably also want to know what a \textbf{pull-/merge request} and \textbf{Issue} is if you work with GitLab/GitHub!
-\end{itemize}
+	\begin{itemize}
+		\item If there are any issues (things that are wrong/missing) tell me and I update the file!
+		\item You probably also want to know what a \textbf{pull-/merge request} and \textbf{Issue} is if you work with GitLab/GitHub!
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Links}
