@@ -1,4 +1,4 @@
-# GIT
+# C++ Compilation Pointers
 
 *This presentation is based on the template of [matze](https://github.com/matze)/[mtheme](https://github.com/matze/mtheme): [Template](https://github.com/matze/mtheme/tree/master/demo)*
 
