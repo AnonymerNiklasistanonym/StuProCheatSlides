@@ -1,0 +1,280 @@
+\documentclass[10pt]{beamer}
+% Theme
+\usetheme{metropolis}
+% Get colors
+\usepackage{xcolor}
+% Get source code syntax highlighting
+\usepackage[cache=false]{minted}
+% Get CC doc license
+\usepackage[type={CC},modifier={by-nc-sa},version={3.0}]{doclicense}
+
+% Document information
+\newcommand*{\mytitleTitle}{C++ Compilation and Pointers}
+\newcommand*{\mytitleSubtitle}{StuPro Cheat Slides}
+\newcommand*{\mytitle}{\mytitleSubtitle: \mytitleTitlet}
+\newcommand*{\myauthor}{Niklas Mikeler}
+\newcommand*{\mysubject}{StuPro - Multi-Kamera-System-Panorma-Aufnahmen - SS19}
+\newcommand*{\mydate}{15.04.2019}
+
+% Custom colors
+\definecolor{lightGreyCustom}{HTML}{e8e8e8}
+\definecolor{greyCustom}{HTML}{929292}
+
+% Document methods
+\newcommand{\urlCustom}[1]{\href{https://#1}{\textcolor{greyCustom}{\mintinline{sh}{#1}}}}
+
+% Title page
+\title{\mytitleTitle}
+\subtitle{\mytitleSubtitle}
+\date{\mydate}
+\subject{\mysubject}
+\keywords{\mytitleTitle, \mytitleSubtitle, \mysubject}
+\author{\myauthor}
+\institute{Universit{\"a}t Stuttgart}
+\titlegraphic{\hfill\includegraphics[height=1.5cm]{resources/picture_unistuttgart_logo_deutsch.pdf}}
+
+% Footer
+\setbeamertemplate{frame footer}{\mytitleSubtitle: \mytitleTitle \ by \myauthor}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Table of contents}
+	\setbeamertemplate{section in toc}[sections numbered]
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{C++}
+
+\begin{frame}{C++ $\gg$ What is a computer program?}
+\begin{itemize}
+	\item A computer program (aka. app/application) is a set of instructions that the computer can execute to do something
+	\item The computer natively can only understand one language which is called machine code (\mintinline{sh}{10110000 01100001}) [Of course there could be a program in machine code that takes some text and runs commands based on this $\rightarrow$ Interpreter]
+	\item The instruction set though differs from CPU to CPU (computer to computer) which means a native program needs to be rewritten for each new CPU, platform, etc.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{C++ $\gg$ Assembly?}
+\begin{itemize}
+	\item Because machine code is really difficult to read/write the assembly language was invented
+	\item Instructions are now quite a bit more readable (\mintinline{as}{mov al, 061h}) and an additional software called the assembler takes the written code and translates it into machine code so that the CPU can understand it
+	\item Because assembly code is very near to the hardware (\textit{low-level}) of each program code written in it is still not simply portable to another computer without doing major changes
+\end{itemize}
+\end{frame}
+
+\begin{frame}{C++ $\gg$ High-level programming languages?}
+\begin{itemize}
+	\item To make source code (the code that the programmer should write) much more readable (\mintinline{cpp}{a = 97;}) and even portable (execute the program on any computer) a new type of programming languages were created
+	\item These are called \textit{high-level} because they are designed to abstract the hardware to make programs in most cases completely independent from any hardware
+	\item There are two ways a high-level programming language program can be run on a computer
+\end{itemize}
+\end{frame}
+
+\begin{frame}{C++ $\gg$ Compiler and interpreters?}
+\begin{enumerate}
+	\item Compiler (C++, C, Haskell, Pascal)
+	\begin{itemize}
+		\item A compiler is a program that reads source code and produces a stand alone machine code executable and optimizes the code along the way and translates in rare cases even better to machine code than a human with assembly code would do
+		\item This means that if the compiler supports translating to a specific CPU/instruction set/etc. any code written in this language supports this platform now (at least it should!)
+	\end{itemize}
+	\item Interpreter (Java, JavaScript, Python)
+	\begin{itemize}
+		\item An interpreter is a program that can run instructions from any input without it being necessarily in machine code
+		\item This means that on any platform where an interpreter for the language exists can (should) automatically run these instructions
+		\item Though the interpreter needs to read the source code each time the program gets executed and is because of the translation process each time often much more flexible on the language side (old programs run still/faster/more stable than before), but generally also a bit slower
+	\end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{C++ $\gg$ What was its predecessor?}
+\begin{itemize}
+	\item Before C++ existed there was C which was developed in 1972 by Dennis Ritchie which allowed programmers to write imperative (procedural) programs
+	\item It was standardized in 1989 and is till today widely used (C99 in 1999, C11 in 2011)
+	\item It was designed to allow low-level access to memory but still have portability
+\end{itemize}
+\end{frame}
+
+\begin{frame}{C++ $\gg$ Why does it exist?}
+\begin{itemize}
+	\item Bjarne Stroustrup developed C++ as an extension of the C language also known as \textit{C with Classes}
+	\item It extends Cs imperative design by object-oriented (objects) and generic programming (templates) features while still providing low-level memory manipulation
+	\item Like C C++ also has next to more high-level features still a design bias based on performance/efficiency/flexibility
+	\item Since C++11 there are general-purpose smart pointers
+	\item Since C++14 there is a better template and lambda support
+	\item C++17 is since December 2017 the latest standardized version
+	\item Like C it has the philosophy \textit{Trust the programmer} which means the programmer can make really fast and great programs but also the language doesn't stop him/her from making dangerous decisions 
+\end{itemize}
+\end{frame}
+
+\section{C++ Compilation}
+
+\begin{frame}{C++ Compilation $\gg$ A general overview}
+\begin{enumerate}
+	\item We have many C/C++ (\mintinline{sh}{.c}/\mintinline{sh}{.cpp}) source files
+	\item Each source file will be compiled by an independent compiler (This is cool, because files that haven't changed do not necessarily need to compiled again)
+	\begin{enumerate}
+		\item The preprocessor (preprocessor statement: \#\mintinline{sh}{xxx}) runs over the current file
+		\begin{itemize}
+			\item This will for example copy each mentioned header file \#\mintinline{sh}{include <iostream>} and its parents directly in the document)
+		\end{itemize}
+		\item The file then gets compiled and transformed into an object (\mintinline{sh}{.o})
+	\end{enumerate}
+	\item Then each object is grouped into an executable or a library
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{C++ Compilation $\gg$ A trivial C example}
+\begin{columns}
+	\begin{column}{0.675\textwidth}
+		\begin{enumerate}
+			\item We can build it with the following commands:
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/build_trivial_c_program.sh}
+		\end{enumerate}
+	\end{column}
+	\begin{column}{0.37\textwidth}  %%<--- here
+		\begin{enumerate}\setcounter{enumi}{2}
+		\item \mintinline{sh}{add.h}
+		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{c}{./resources/add.h}
+	\end{enumerate}
+	\end{column}
+\end{columns}
+\vspace{-5mm}
+\begin{columns}
+	\begin{column}{0.4\textwidth}
+		\begin{enumerate}\setcounter{enumi}{1}
+			\item \mintinline{sh}{add.c}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{c}{./resources/add.c}
+		\end{enumerate}
+	\end{column}
+	\begin{column}{0.6\textwidth}  %%<--- here
+		\begin{enumerate}\setcounter{enumi}{3}
+			\item \mintinline{sh}{simple.c} (contains main function)
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{c}{./resources/simple.c}
+		\end{enumerate}
+	\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{C++ Compilation $\gg$ Why do we need header files?}
+\begin{itemize}
+	\item When the main function wants to call the function \mintinline{c}{int add(int a, int b){}}, it needs to know what it returns and what it takes in as argument before it can call the function 
+	\item $\Rightarrow$ We need to know the size of structures and function arguments
+\end{itemize}
+\end{frame}
+
+\section{CMAKE}
+
+\section{Pointers in C++}
+
+\begin{frame}{Pointers in C++ $\gg$ What is a pointer?}
+\begin{itemize}
+	\item An integer that stores a memory address
+	\item You can probably better picture it with the following analogy:
+	\begin{itemize}
+		\item There is a straight street with a start and an end
+		\item On the left side of this street there are houses with house numbers
+		\item Each house has the size of a byte and it's address is called the memory address
+		\item All houses together are your memory
+	\end{itemize}
+	\item Because everything is in memory, every variable has a memory address
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/memory_address.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Purest pointer: \mintinline{cpp}{void*}}
+\begin{itemize}
+	\item \mintinline{cpp}{void} pointer means \textit{We do not care what the type of the pointers actual data is}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/void_ptr.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Assign memory address to pointer}
+\begin{itemize}
+	\item Any memory address can be assigned to a pointer, the type of the pointer changes absolutely nothing
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/assign_ptr.cpp}
+	\item[$\Rightarrow$] This means types are only useful for manipulating data
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Change the data they point to}
+\begin{itemize}
+	\item Using so called dereferencing of a pointer we can change the data the pointer points to
+	\item The pointer type \textbf{should} suggest to what the pointer is pointing to (If a pointer gets casted the compiler can't check it)
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/change_ptr_data.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Using pointers outside the stack I}
+\begin{itemize}
+	\item In short: The \textbf{stack} is used for static memory allocation and the \textbf{heap} for dynamic memory allocation, both are stored in the computer's RAM
+	\item In C++ the stack memory is \textit{generally} where local variables get stored/constructed, it also holds parameters passed to functions
+	\item To free the stack from used memory is trivial, because the compiler already knows at compile time when a variable is never used again
+	\item The stack is usually very limited compared to the heap, if you have too much memory allocated you get a stack (buffer) overflow!
+	\item Heap memory is as big as the virtual memory of a computer is and a place where you can store big and more importantly dynamically sized data and then point to it
+	\item On the heap is the big danger of so known memory leaks if you forget to manually free memory you allocated on it
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Using pointers outside the stack II}
+\begin{itemize}
+	\item Now lets for example allocate some memory on the heap and the free this memory again:
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/heap_ptr.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Aren't pointer a big hazard?}
+\begin{itemize}
+	\item Yes they are
+	\item You as a programmer need always to be fully aware to what they point to, if the data they point to was already freed (virtual memory access error), if it was changed through another pointer to the same data, if the pointer points to a different type than it says, etc.
+	\item Because of this there are better pointers available that help programmers to make less errors and help with automatic memory management
+	\item In the following slides we will explore smart pointers that are part of the standard library since C++11/14 and the concept of RAII
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Smart pointers: RAII}
+\begin{itemize}
+	\item Smart pointer were designed with compiler type safety and automatic memory management in mind
+	\item The latter one is also better known as \textit{Resource Acquisition Is Initialization} programming
+	\item The idea behind this idiom is to ensure that resource acquisition occurs at the same time that the object is initialized, so that all resources for the object are created and made ready in one line of code
+	\item In practical terms, the main principle of RAII is to give ownership of any heap-allocated resource — for example, dynamically-allocated memory or system object handles — to a stack-allocated object whose destructor contains the code to delete or free the resource and also any associated cleanup code (A destructor of an object is like an constructor but is not called when an object is created but when it's destroyed)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Smart pointers: Are normal pointers bad?}
+\begin{itemize}
+	\item Smart pointer do not replace normal pointers!
+	\item You will in the following examples even learn, that the compiler automatically will create a normal pointer from some smart pointers - the idea is only to make the program \textit{automatically} memory safer
+	\item Smart pointers are all based on pointers, but implement in an overhead special features that help in what the idea is behind them
+	\item You should use smart pointers or something that works the same way, but sometimes when performance is crucial and there is no chance of confusion about ownership you are better of using old-school pointers
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Smart pointer: \mintinline{cpp}{std::unique_ptr}}
+\begin{itemize}
+	\item Yes they are
+	\item You as a programmer need always to be fully aware to what they point to, if the data they point to was already freed (virtual memory access error), if it was changed through another pointer to the same data, if the pointer points to a different type than it says, etc.
+	\item Because of this there are better pointers available that help programmers to make less errors and help with automatic memory management
+	\item In the following slides we will explore smart pointers that are part of the standard library since C++11/14 and the concept of RAII
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Issues/Ideas + Do you need to know anything else?}
+	\begin{itemize}
+		\item If there are any issues (things that are wrong/missing) tell me and I update the file!
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Links}
+	\begin{itemize}
+		\item\urlCustom{github.com/green7ea/cpp-compilation}
+		\item\urlCustom{www.learncpp.com}
+		\item\urlCustom{en.wikipedia.org/wiki/C++}
+		
+	\end{itemize}
+	\begin{center}\doclicenseThis\end{center}
+\end{frame}
+
+\end{document}
