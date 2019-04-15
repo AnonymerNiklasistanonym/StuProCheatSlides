@@ -2,7 +2,7 @@
 
 *This presentation is based on the template of [matze](https://github.com/matze)/[mtheme](https://github.com/matze/mtheme): [Template](https://github.com/matze/mtheme/tree/master/demo)*
 
-The basics about `git`: staging, committing, pushing, merging, branches, history 
+The basics about `c++`, its compilation and its pointers 
 
 ## Create slides (`.pdf`)
 
