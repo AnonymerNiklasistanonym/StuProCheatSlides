@@ -412,6 +412,46 @@
 \end{itemize}
 \end{frame}
 
+\section{Templates in C++}
+
+\begin{frame}{Templates in C++ $\gg$ What is a template?}
+\begin{itemize}
+	\item Templates are somewhat comparable to Java Generics but way more powerful, because they are not limited by the type system and evaluated at compile time - they also allow custom type definitions even with the basic types
+	\item Its like a macro, where you can define a blueprint of something and then the compiler will based on these rules write code for you (which is good as long as you don't need to debug it)
+	\item When writing a function/class with template integration it therefore enables you to call/create the same function/object with different parameters each time you call/create the function/object
+	\item The whole thing is like \textit{Meta programming}
+	\item Keep in mind there are still rules which can produce many errors (even the compiler can't just find a way to print out a random custom made class object)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Templates in C++ $\gg$ Example: Print function template}
+\begin{itemize}
+	\item In this example we want to print something but not write for every type a function that overloads itself (this would be mayor and unnecessary code duplication)
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize ]{cpp}{./resources/templates/print_function_template_example.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Templates in C++ $\gg$ Example: Array class template}
+\begin{itemize}
+	\item In this example we want to have arrays with different size and type but without evaluating it at runtime
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize ]{cpp}{./resources/templates/array_class_template_example.cpp}
+\end{itemize}
+\end{frame}
+
+\section{Operator overloading in C++}
+
+\begin{frame}{Operator overloading in C++ $\gg$ Example I}
+\begin{itemize}
+	\item Because C++ gives you as much power as it can you can even overload operators and either making you program better or making everything worse, here is a simple example:
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize,lastline=18]{cpp}{./resources/operator_overloading.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Operator overloading in C++ $\gg$ Example II}
+\begin{itemize}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize,firstline=19]{cpp}{./resources/operator_overloading.cpp}
+\end{itemize}
+\end{frame}
 
 \begin{frame}{Issues/Ideas + Do you need to know anything else?}
 	\begin{itemize}

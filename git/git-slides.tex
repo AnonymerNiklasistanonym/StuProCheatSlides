@@ -301,6 +301,17 @@
 	\end{enumerate}
 \end{frame}
 
+\begin{frame}{Undos $\gg$ \mintinline{sh}{git revert}}
+\begin{itemize}
+	\item Even though the command \mintinline{sh}{git revert} is an undo command its no real undo - it finds its meaning in \textit{undoing} already pushed commits in group-projects
+	\item Instead of removing a commit/s from the git history it appends a new commit which inverts the changes made
+	\item This is good when you working in a team to prevent git from losing history and preserving the integrity of the revision history in all cloned repositories
+	\item You use it when you want to do the inverse of a commit from the project history like a commit that introduced a bug
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_revert_01_revert.sh}
+	\item In summary its a safe and team-friendly alternative to \mintinline{sh}{git reset}
+\end{itemize}
+\end{frame}
+
 
 \section{Other}
 
@@ -400,6 +411,7 @@
 		\item\urlCustom{rogerdudler.github.io/git-guide}
 		\item\urlCustom{www.git-tower.com/learn/git/faq}
 		\item\urlCustom{githooks.com}
+		\item\urlCustom{www.atlassian.com/git/tutorials/setting-up-a-repository}
 	\end{itemize}
 	\begin{center}\doclicenseThis\end{center}
 \end{frame}

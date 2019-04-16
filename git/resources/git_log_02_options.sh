@@ -6,3 +6,4 @@ git log --pretty=format:"%ad:%an:%d:%B" # Date : Title : ...
         --patch               # Show the differences from each commit
         --stat                # Get some stats like files/lines changed
         --relative-date       # Get the relative date
+        --oneline             # Display every action on one line
