@@ -1,0 +1,6 @@
+# Ignore built files
+.exe
+
+# Ignore cmake files
+build-unix/
+

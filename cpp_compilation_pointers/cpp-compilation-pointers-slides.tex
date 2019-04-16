@@ -164,7 +164,52 @@
 \end{itemize}
 \end{frame}
 
-\section{CMAKE}
+\section{CMake}
+
+\begin{frame}{CMake $\gg$ What is CMake?}
+\begin{itemize}
+	\item CMake is a free open source cross platform program to help with the build process of software like C++ projects
+	\item Although there are a lot more and better tools (like for example Premake) out there here is a short overview about the CMAKE pipeline
+	\item The tutorial is based on a tutorial from John Lamp from 2013 \url{https://www.johnlamp.net/cmake-tutorial-1-getting-started.html}
+	\item It goes without saying that you first need to install CMAKE before continuing the tutorial
+\end{itemize}
+\end{frame}
+
+\begin{frame}{CMake $\gg$ ToDo List example I}
+\begin{itemize}
+	\item CMake has project files like Make has Makefiles
+	\item \mintinline{sh}{CMakeLists.txt} describes your project to CMake and affect its output, they should be fairly simpler to read and edit compared to Makefiles
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cmake}{./resources/CMake_ToDo_List/CMakeLists.txt}
+	\item The \mintinline{sh}{project(name)} command names your project (If the project name contains spaces it must be surrounded by quotes)
+	\item The \mintinline{sh}{add_executable(target sources...)} command tells CMake you want to create an executable and adds it as target (The first arguemtn ist the name of the executable and the rest are the source files)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{CMake $\gg$ ToDo List example II}
+\begin{columns}
+	\begin{column}{0.675\textwidth}
+		\begin{itemize}
+			\item \mintinline{sh}{main.cpp}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/CMake_ToDo_List/main.cpp}
+			\item \mintinline{sh}{todo.cpp}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/CMake_ToDo_List/todo.cpp}
+		\end{itemize}
+	\end{column}
+	\begin{column}{0.325\textwidth}
+		\begin{itemize}
+			\item \mintinline{sh}{todo.h}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/CMake_ToDo_List/todo.h}
+		\end{itemize}
+	\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{CMake $\gg$ ToDo List example III}
+\begin{itemize}
+	\item Although CMake can do in- and out-of-source build it suggests to do the latter because it's much easier to have the build separated in another directory than next to the source files
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/CMake_ToDo_List/createCmakeMakefile.sh}
+\end{itemize}
+\end{frame}
 
 \section{Pointers in C++}
 
