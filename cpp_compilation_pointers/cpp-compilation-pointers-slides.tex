@@ -244,19 +244,68 @@
 
 \begin{frame}{Pointers in C++ $\gg$ Smart pointers: Are normal pointers bad?}
 \begin{itemize}
-	\item Smart pointer do not replace normal pointers!
-	\item You will in the following examples even learn, that the compiler automatically will create a normal pointer from some smart pointers - the idea is only to make the program \textit{automatically} memory safer
+	\item Smart pointer make it possible to handle pointers without using the keyword \mintinline{cpp}{new} or \mintinline{cpp}{delete}
+	\item This means smart pointers are just a wrapper around \textit{normal} pointers which is why smart pointers do not replace normal pointers - the idea is only to make the program \textit{automatically} memory safer
 	\item Smart pointers are all based on pointers, but implement in an overhead special features that help in what the idea is behind them
 	\item You should use smart pointers or something that works the same way, but sometimes when performance is crucial and there is no chance of confusion about ownership you are better of using old-school pointers
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Pointers in C++ $\gg$ Smart pointer: \mintinline{cpp}{std::unique_ptr}}
+\begin{frame}{Pointers in C++ $\gg$ Smart pointer: Class for explanation}
+\begin{columns}
+	\begin{column}{0.375\textwidth}
+		\begin{itemize}
+			\item \mintinline{sh}{ExampleClass.h}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/ExampleClass.h}
+		\end{itemize}
+	\end{column}
+	\begin{column}{0.65\textwidth}
+		\begin{itemize}
+			\item \mintinline{sh}{ExampleClass.cpp}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/ExampleClass.cpp}
+		\end{itemize}
+	\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Pointers in C++ $\gg$ Smart pointer: 1.  \mintinline{cpp}{std::unique_ptr}}
 \begin{itemize}
-	\item Yes they are
-	\item You as a programmer need always to be fully aware to what they point to, if the data they point to was already freed (virtual memory access error), if it was changed through another pointer to the same data, if the pointer points to a different type than it says, etc.
-	\item Because of this there are better pointers available that help programmers to make less errors and help with automatic memory management
-	\item In the following slides we will explore smart pointers that are part of the standard library since C++11/14 and the concept of RAII
+	\item When that pointer get out of scope it gets automatically deleted (there is no overhead using it compared to a normal pointer)
+	\item You also can't copy it (\textit{only one pointer to a point in memory})
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/unique_ptr.cpp}
+	\vspace{-9mm}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/build_unique_ptr.sh}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Smart pointer: 2.  \mintinline{cpp}{std::shared_ptr} I}
+\begin{itemize}
+	\item Reference counting: The pointer counts in it's overhead the references to it and when the number reaches $0$ it deallocates memory (also it can be copied/shared)
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize,lastline=17]{cpp}{./resources/shared_ptr.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Smart pointer: 2.  \mintinline{cpp}{std::shared_ptr} II}
+\begin{itemize}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize,firstline=18]{cpp}{./resources/shared_ptr.cpp}
+	\vspace{-9mm}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize ]{sh}{./resources/build_shared_ptr.sh}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Smart pointer: 3.  \mintinline{cpp}{std::weak_ptr} I}
+\begin{itemize}
+	\item Extends the \mintinline{cpp}{std::shared_ptr} but does not increase the reference count and implements a method where you can ask if its still alive (references $> 0$, Useful for something like cache interaction)
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize,lastline=17]{cpp}{./resources/weak_ptr.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Smart pointer: 3.  \mintinline{cpp}{std::weak_ptr} II}
+\begin{itemize}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize,firstline=18]{cpp}{./resources/weak_ptr.cpp}
+	\vspace{-9mm}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize ]{sh}{./resources/build_weak_ptr.sh}
 \end{itemize}
 \end{frame}
 
