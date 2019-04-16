@@ -14,7 +14,7 @@
 \newcommand*{\mytitle}{\mytitleSubtitle: \mytitleTitlet}
 \newcommand*{\myauthor}{Niklas Mikeler}
 \newcommand*{\mysubject}{StuPro - Multi-Kamera-System-Panorma-Aufnahmen - SS19}
-\newcommand*{\mydate}{14.04.2019}
+\newcommand*{\mydate}{16.04.2019}
 
 % Custom colors
 \definecolor{lightGreyCustom}{HTML}{e8e8e8}
@@ -346,6 +346,31 @@
 		\item Now you can make signed commits for an extra layer of security
 		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_sign_commits_03_signed_commit.sh}
 	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Other $\gg$ \mintinline{sh}{git stash} I}
+\begin{itemize}
+	\item \mintinline{sh}{git stash} locally moves changes you've made in the working directory (unstaged $+$ staged) into somewhere in the \mintinline{sh}{.git} directory
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_stash_01_stash.sh}
+	\item This comes in handy if you are not quite ready to commit your changes, but want to work on something else like doing commits, switch to another branch, $\dots$
+	\item To get back the changes you have the option to pop (remove them from the stash and copy them into the current working directory)
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_stash_02_stash_pop.sh}
+	\item Or you can just do the copy process so that if anything goes sideways you can repeat everything \textit{without any danger}
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_stash_03_stash_apply.sh}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Other $\gg$ \mintinline{sh}{git stash} II}
+\begin{itemize}
+	\item You can even have multiple stashes (and apply any of them)
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_stash_04_stash_list.sh}
+	\item although it's probably better if you didn't and if you do better save some description with them
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_stash_05_stash_save.sh}
+	\item If you forgot what the stash did you can display it
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_stash_06_stash_show.sh}
+	\item And you can also just drop them to clean up
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_stash_07_drop.sh}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Other $\gg$ Git hooks}

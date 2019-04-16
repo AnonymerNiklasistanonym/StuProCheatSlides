@@ -1,0 +1,1 @@
+git stash show # "-p" for more information

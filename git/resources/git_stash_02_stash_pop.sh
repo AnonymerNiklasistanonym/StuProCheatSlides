@@ -1,0 +1,1 @@
+git stash pop # This WILL REMOVE the changes from the stash!
