@@ -255,3 +255,4 @@ TSWLatexianTemp*
 *.sta
 git/git-slides.pdf
 cpp_compilation_pointers/cpp-compilation-pointers-slides.pdf
+*.exe

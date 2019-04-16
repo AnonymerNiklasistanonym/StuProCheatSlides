@@ -261,3 +261,6 @@ _minted-*
 
 # ignore powerpoint current saves
 ~$*
+
+# Ignore object files
+.o

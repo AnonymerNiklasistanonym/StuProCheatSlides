@@ -14,7 +14,7 @@
 \newcommand*{\mytitle}{\mytitleSubtitle: \mytitleTitlet}
 \newcommand*{\myauthor}{Niklas Mikeler}
 \newcommand*{\mysubject}{StuPro - Multi-Kamera-System-Panorma-Aufnahmen - SS19}
-\newcommand*{\mydate}{15.04.2019}
+\newcommand*{\mydate}{16.04.2019}
 
 % Custom colors
 \definecolor{lightGreyCustom}{HTML}{e8e8e8}
@@ -113,34 +113,76 @@
 \begin{frame}{C++ Compilation $\gg$ A general overview}
 \begin{enumerate}
 	\item We have many C/C++ (\mintinline{sh}{.c}/\mintinline{sh}{.cpp}) source files
-	\item Each source file will be compiled by an independent compiler (This is cool, because files that haven't changed do not necessarily need to compiled again)
+	\item Each source file (\mintinline{sh}{.c}/\mintinline{sh}{.cpp}) will be compiled by an independent compiler (This is cool, because files that haven't changed do not necessarily need to compiled again)
 	\begin{enumerate}
 		\item The preprocessor (preprocessor statement: \#\mintinline{sh}{xxx}) runs over the current file
 		\begin{itemize}
-			\item This will for example copy each mentioned header file \#\mintinline{sh}{include <iostream>} and its parents directly in the document)
+			\item This will for example copy each mentioned header file and its parents directly in the document
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/preprocessor_statement.h}
 		\end{itemize}
 		\item The file then gets compiled and transformed into an object (\mintinline{sh}{.o})
 	\end{enumerate}
-	\item Then each object is grouped into an executable or a library
+	\item Then each object is linked into one executable (more to the linking process later)
 \end{enumerate}
+\end{frame}
+
+\begin{frame}{C++ Compilation $\gg$ A trivial C++ example}
+\begin{enumerate}
+	\item We can build it with the following commands:
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize,firstline=3,lastline=4]{sh}{./resources/Compilation_example/build.sh}
+\end{enumerate}
+\vspace{-5mm}
+\begin{columns}
+	\begin{column}{0.57\textwidth}
+		\begin{enumerate}\setcounter{enumi}{1}
+			\item \mintinline{sh}{Main.cpp} (contains main function)
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{c}{./resources/Compilation_example/Main.cpp}
+		\end{enumerate}
+	\end{column}
+	\begin{column}{0.57\textwidth}
+		\begin{enumerate}\setcounter{enumi}{2}
+			\item \mintinline{sh}{Log.cpp}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{c}{./resources/Compilation_example/Log.cpp}
+		\end{enumerate}
+	\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{C++ Compilation $\gg$ Why do we need header files?}
+\begin{itemize}
+	\item When the main function wants to call the function \mintinline{c}{add(5,6)}, it needs to know what it returns and what it takes in as argument before it can call the function, this information can come from a local declaration( \mintinline{c}{int add(int a, int b);})/definition or from a included header
+	\item $\Rightarrow$ The compiler for each source file needs to know the size of structures and function arguments given through the function/symbol declaration, but not necessarily their definition
+	\item This is why you include header files - else you would need to write for every external function call a declaration
+	\item Because until now we only compiled based on function declarations there are still many possible errors ahead
+	\item Header files should normally always have a matching source file and only contain function declarations
+\end{itemize}
+\end{frame}
+
+\begin{frame}{C++ Compilation $\gg$ Link all objects}
+\begin{itemize}
+	\item The next step is to create templates, because templates are only blueprints on which basis the compiler writes functions (If you want to know more about templates which are even more powerful then for example Java Generics look here: \url{http://www.cplusplus.com/doc/oldtutorial/templates/})
+	\item Then when we have object files that contain in total   all function definitions the linker tries to combine everything
+	\item If in this step a function/symbol definition is not found because there was only a declaration you will experience a \textbf{Linker Error} which is easy to resolve by providing the missing definition to an already existing definition in a source file
+	\item If everything \textit{links} the linker will provide you the executable (\mintinline{c}{*.exe})
+\end{itemize}
 \end{frame}
 
 \begin{frame}{C++ Compilation $\gg$ A trivial C example}
 \begin{columns}
 	\begin{column}{0.675\textwidth}
 		\begin{enumerate}
-			\item We can build it with the following commands:
+			\item We can build it with:
 			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/build_trivial_c_program.sh}
 		\end{enumerate}
 	\end{column}
 	\begin{column}{0.37\textwidth}  %%<--- here
 		\begin{enumerate}\setcounter{enumi}{2}
-		\item \mintinline{sh}{add.h}
-		\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{c}{./resources/add.h}
-	\end{enumerate}
+			\item \mintinline{sh}{add.h}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{c}{./resources/add.h}
+		\end{enumerate}
 	\end{column}
 \end{columns}
-\vspace{-5mm}
+\vspace{-3mm}
 \begin{columns}
 	\begin{column}{0.4\textwidth}
 		\begin{enumerate}\setcounter{enumi}{1}
@@ -157,11 +199,27 @@
 \end{columns}
 \end{frame}
 
-\begin{frame}{C++ Compilation $\gg$ Why do we need header files?}
+\begin{frame}{C++ Compilation $\gg$ \mintinline{sh}{ifndef}, \mintinline{sh}{pragma once}}
 \begin{itemize}
-	\item When the main function wants to call the function \mintinline{c}{int add(int a, int b){}}, it needs to know what it returns and what it takes in as argument before it can call the function 
-	\item $\Rightarrow$ We need to know the size of structures and function arguments
+	\item One more thing about header files and the linking process
+	\item A linker error is not only occurring when to a declaration no definition exists, but also if there is more than one
+	\item But thanks to the preprocessor the header files that link to each other will all be copied into one file for each compilation which means a header file could be included more than once (which could even in the compilation because of two declarations create an error)
+	\item Because of this we use guards so that every header is only included once even when referenced more than once (they are the same):
 \end{itemize}
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+		\begin{enumerate}
+			\item The \mintinline{sh}{ifndef} guard
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/ifndef_example.h}
+		\end{enumerate}
+	\end{column}
+	\begin{column}{0.5\textwidth}
+		\begin{enumerate}\setcounter{enumi}{1}
+			\item Or the modern variant: \mintinline{sh}{pragma once}
+			\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/pragma_once_example.h}
+		\end{enumerate}
+	\end{column}
+\end{columns}
 \end{frame}
 
 \section{CMake}
@@ -206,7 +264,7 @@
 
 \begin{frame}{CMake $\gg$ ToDo List example III}
 \begin{itemize}
-	\item Although CMake can do in- and out-of-source build it suggests to do the latter because it's much easier to have the build separated in another directory than next to the source files
+	\item Although CMake can do in- and out-of-source builds even  its documentation suggests to do the latter because it's much easier to have the build separated in another directory than in between the source files
 	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/CMake_ToDo_List/createCmakeMakefile.sh}
 \end{itemize}
 \end{frame}
