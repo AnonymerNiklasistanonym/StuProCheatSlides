@@ -1,0 +1,89 @@
+% Based on a template (http://www.texample.net/media/tikz/examples/TEX/class-diagram.tex) by Remus Mihail Prunescu
+\documentclass{minimal}
+\usepackage[a4paper,margin=1cm,landscape]{geometry}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+\usetikzlibrary{positioning,shapes,shadows,arrows}
+\begin{document}
+\tikzstyle{abstract}=[rectangle, draw=black, rounded corners,
+        text centered, anchor=north, text=black, text width=3cm]
+\tikzstyle{master}=[fill=green!30]
+\tikzstyle{dev}=[fill=cyan!30]
+\tikzstyle{feature}=[fill=orange!30]
+
+\tikzstyle{comment}=[rectangle, draw=black, rounded corners, fill=green,
+        text centered, anchor=north, text=white, text width=3cm]
+\tikzstyle{myarrow}=[->, >=open triangle 90, thick]
+\tikzstyle{line}=[-, thick]
+        
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+    \node (master) [abstract, rectangle split, rectangle split parts=2, master, text width=5cm]
+    {
+            \textbf{master}
+            \nodepart{second}Source code that is stable
+    };
+    \node (AuxNode00) [text width=0.1cm, below=of master] {};
+    \node (dev) [abstract, rectangle split, rectangle split parts=2, below=of AuxNode00, dev, text width=7cm]
+    {
+    	\textbf{dev}
+    	\nodepart{second}Source code that is implemented but not really stable working with the other modules
+    };
+\node (AuxNode01) [text width=5cm, below=of dev] {};
+\node (communicationdev) [abstract, rectangle split, rectangle split parts=2, left=of AuxNode01, dev, text width=4cm]
+{
+	\textbf{communication-dev}
+	\nodepart{second}$\dots$
+};
+\node (guidev) [abstract, rectangle split, rectangle split parts=2, below=of AuxNode01, dev, text width=5cm]
+{
+	\textbf{gui-dev}
+	\nodepart{second}Module source code that is implemented but not really stable
+};
+\node (imageprocessingdev) [abstract, rectangle split, rectangle split parts=2, right=of AuxNode01, dev, text width=4cm]
+{
+	\textbf{image-processing-dev}
+	\nodepart{second}$\dots$
+};
+\node (AuxNode02) [text width=5cm, below=of guidev] {};
+\node (guidevfeature) [abstract, rectangle split, rectangle split parts=2, left=of AuxNode02, feature, text width=4cm]
+{
+	\textbf{gui-dev-feature1}
+	\nodepart{second}A feature currently developed for this module
+};
+\node (guidevfeature2) [abstract, rectangle split, rectangle split parts=2, right=of AuxNode02, feature, text width=4cm]
+{
+	\textbf{gui-dev-feature2}
+	\nodepart{second}$\dots$
+};
+\node (AuxNode03) [text width=4cm, below=of guidevfeature] {};
+\node (guidevfeaturepart) [abstract, rectangle split, rectangle split parts=2, below=of AuxNode03, feature, text width=4cm]
+{
+	\textbf{gui-dev-feature1-part1}
+	\nodepart{second}A part of the feature currently developed for this module
+};
+\node (guidevfeaturepart2) [abstract, rectangle split, rectangle split parts=2, right=of AuxNode03, feature, text width=4cm]
+{
+	\textbf{gui-dev-feature1-part2}
+	\nodepart{second}$\dots$
+};
+    
+    \draw[myarrow] (dev.north) -- ++(0,0) -| (master.south);
+    
+    \draw[myarrow] (guidev.north) -- ++(0,0) -| (dev.south);
+    \draw[line] (AuxNode01.south) --++(0,0) -| (communicationdev.east);
+    \draw[line] (AuxNode01.south) -- ++(0,0) -| (imageprocessingdev.west);
+    
+    \draw[myarrow] (guidevfeature.east) -- ++(0.8,0) -| (guidev.south);
+    \draw[line] (guidevfeature2.west) -- ++(-0.8,0) -| (guidevfeature.east);
+    
+    \draw[myarrow] (guidevfeaturepart.north) -- ++(0,0) -| (guidevfeature.south);
+    \draw[line] (guidevfeaturepart2.west) -- ++(0,0) -| (guidevfeaturepart.north);
+        
+        
+\end{tikzpicture}
+\end{center}
+\end{document}

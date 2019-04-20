@@ -412,6 +412,46 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}{Pointers in C++ $\gg$ What are references?}
+\begin{itemize}
+	\item A reference is a way to reference an existing variable and will either be compiled to be an alias or the same as a pointer
+	\item The difference to a pointer is that you can't set them to 0 or a random address, they have to reference an already existing variable
+	\item This will make the code much more readable and less error prone
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize ]{cpp}{./resources/references_example.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Pass-by-reference? I}
+\begin{itemize}
+	\item This whole thing is also a big difference to languages like Java that copy every parameter (pass-by-value) which is why you can't even swap values (besides primitives) and thus is a bit faster (and with more hazards)
+	\item While in C++ a swap between objects is no problem at all
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{cpp}{./resources/good_swap.cpp}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Pass-by-reference? II}
+\begin{itemize}
+	\item In Java the same thing is impossible:
+	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{java}{./resources/BadSwap.java}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Benefits I}
+\begin{itemize}
+	\item Having pointer makes memory management very dangerous, because you are partly the reason it is bad when it is bad, but you can also be through them in full control
+	\item Other languages like Java have for example something called a \textit{Garbage Collector} who checks every some milliseconds the whole heap which point in memory is not referenced any more (\textit{NullPointer Exception}) and then removes it from the heap (very costly and everything needs to halt - although they have done some changes to optimize this)
+	\item In C++ there is per default no garbage collector that would help you with memory management but would also massively slow down your program, even if you would want performance right in this moment, just be careful to not create memory leaks which are mostly non existing in Java programs (you still can do them there, just like global variables in JavaScript)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pointers in C++ $\gg$ Benefits II}
+\begin{itemize}
+	\item Also like you have seen in the previous examples there are major benefits when calling a function with parameters to languages like Java
+	\item Java does manipulate all objects by reference (meaning pointers to the heap, just like C++), even all object variables are references, however Java doesn't pass method arguments by reference (meaning pointers) it copies the pointers and then passes the copied reference by value (the bad swap example)
+	\item In C++ you have the option to decide how you want to pass a function parameter (by reference or value)
+\end{itemize}
+\end{frame}
+
 \section{Templates in C++}
 
 \begin{frame}{Templates in C++ $\gg$ What is a template?}

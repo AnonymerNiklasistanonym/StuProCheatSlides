@@ -1,0 +1,118 @@
+% Based on a template (http://www.texample.net/tikz/examples/filesystem-tree/) from Frantisek Burian
+
+\documentclass{minimal}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+\usetikzlibrary{trees}
+\begin{document}
+\tikzstyle{every node}=[draw=black,thick,anchor=west]
+\tikzstyle{directory}=[double]
+\tikzstyle{selected}=[draw=red,fill=red!30]
+\tikzstyle{generated}=[draw=gray,fill=gray!30]
+\tikzstyle{script}=[draw=cyan,fill=cyan!30]
+\tikzstyle{ignore}=[draw=green,fill=green!30]
+\tikzstyle{readme}=[draw=violet,fill=violet!30]
+\tikzstyle{optional}=[dashed,fill=gray!50]
+\begin{tikzpicture}[%
+grow via three points={one child at (0.5,-0.7) and two children at (0.5,-0.7) and (0.5,-1.4)},
+edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+\node [fill=black, text=white] {git repository} 
+	child { node [generated] {dist (automatic generated build output) [ignored]}
+		child { node [generated] {docs (generated HTML documentation hierarchy)}}
+		child { node [generated] {module (gui/communication/image\_processing)}
+			child { node [generated] {executables for windows and linux}}
+			child { node [generated] {module instructions (HTML/PDF)??}}
+		}
+	}
+	child [missing] {}
+	child [missing] {}
+	child { node [directory] {doc (doxygen documentation)}
+		child { node [optional] {doc\_section}
+			child { node [optional] {*.md}}
+		}
+		child [missing] {}
+		child { node [directory] {res (documentation resources)}
+			child { node [optional] {*.svg/*.png/*.jpg/other}}
+		}
+		child { node [ignore] {.gitignore}}
+		child { node [script] {build.sh}}
+		child { node [script] {clean.sh}}
+		child { node [selected ] {Doxyfile}}
+		child { node {main\_page.md}}
+		child { node [readme] {README.md}}
+		child { node [optional] {*.md}}
+	}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child { node [directory] {scripts}
+		child { node [script] {build.sh}}
+		child { node [script] {clean.sh}}
+		child { node [readme] {README.md}}
+		child { node [script] {test.sh}}
+		child { node [optional] {*.sh}}
+	}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child { node [directory] {src (c++ source code)}
+		child { node [directory] {module (gui/communication/image\_processing)}
+			child { node [directory] {tests (c++ module unit tests)}
+				child { node [optional]{test\_*.cpp}}
+			}
+			child [missing] {}
+			child { node [directory] {src (c++ module source code/headers)}
+				child { node [optional] {code\_section}
+					child { node [optional] {*.cpp/*.hpp/other}}
+				}
+				child [missing] {}
+				child { node [directory] {include (c++ module shared headers)}
+					child { node {interface\_*.hpp}}
+					child { node [optional] {*.hpp}}
+				}
+				child { node [selected] {CMakeLists.txt}}
+				child { node {main.cpp}}
+				child { node [optional] {*.cpp/*.hpp/other}}
+			}
+			child { node [directory] {vendor}
+				child { node [optional]{submodule}}
+			}
+			child [missing] {}
+			child { node [ignore] {.gitignore}}
+			child { node [script] {build.sh}}
+			child { node [script] {clean.sh}}
+			child { node [readme] {README.md}}
+			child { node [script] {test.sh}}
+			child [missing] {}
+			child [missing] {}
+			child [missing] {}
+			child [missing] {}
+		}
+		child { node [ignore] {.gitignore}}
+		child { node [script] {build.sh}}
+		child { node [script] {clean.sh}}
+		child { node [readme] {README.md}}
+		child { node [script] {test.sh}}
+	}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child [missing] {}
+	child { node [ignore] {.gitattributes}}
+	child { node [ignore] {.gitignore}}
+	child { node [readme] {README.md}};
+\end{tikzpicture}
+\end{document}
