@@ -1,4 +1,4 @@
-% Based on a template (http://www.texample.net/tikz/examples/filesystem-tree/) from Frantisek Burian
+% Based on a template (http://www.texample.net/tikz/examples/filesystem-tree) from Frantisek Burian
 
 \documentclass{minimal}
 \usepackage{tikz}
@@ -20,12 +20,9 @@
 grow via three points={one child at (0.5,-0.7) and two children at (0.5,-0.7) and (0.5,-1.4)},
 edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 \node [fill=black, text=white] {git repository} 
-	child { node [generated] {dist (automatic generated build output) [ignored]}
+	child { node [generated] {bin (automatic generated build output) [ignored]}
 		child { node [generated] {docs (generated HTML documentation hierarchy)}}
-		child { node [generated] {module (gui/communication/image\_processing)}
-			child { node [generated] {executables for windows and linux}}
-			child { node [generated] {module instructions (HTML/PDF)??}}
-		}
+		child { node [generated] {module (gui/communication/image\_processing) executables and instructions}}
 	}
 	child [missing] {}
 	child [missing] {}
@@ -54,7 +51,26 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 	child [missing] {}
 	child [missing] {}
 	child [missing] {}
+	child [missing] {}
+	child { node [directory] {instructions (PDF instructions for each module)}
+		child { node [directory] {module (gui/communication/image\_processing)}
+				child { node [directory] {res (instruction resources)}
+					child { node [optional] {*.pdf/*.png/*.jpg/other}}
+				}
+				child { node [ignore] {.gitignore}}
+				child { node [script] {build.sh}}
+				child { node [script] {clean.sh}}
+				child { node {instructions.tex}}
+		}
+		child { node [script] {build.sh}}
+		child { node [script] {clean.sh}}
+		child { node [readme] {README.md}}
+	}
 	child { node [directory] {scripts}
+		child { node [optional] {script\_section}
+			child { node [optional] {*.sh}}
+		}
+		child [missing] {}
 		child { node [script] {build.sh}}
 		child { node [script] {clean.sh}}
 		child { node [readme] {README.md}}
@@ -66,8 +82,10 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 	child [missing] {}
 	child [missing] {}
 	child [missing] {}
+	child [missing] {}
+	child [missing] {}
 	child { node [directory] {src (c++ source code)}
-		child { node [directory] {module (gui/communication/image\_processing)}
+		child { node [directory] {module (gui/communication/image\_processing) + shared}
 			child { node [directory] {tests (c++ module unit tests)}
 				child { node [optional]{test\_*.cpp}}
 			}
@@ -78,7 +96,6 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 				}
 				child [missing] {}
 				child { node [directory] {include (c++ module shared headers)}
-					child { node {interface\_*.hpp}}
 					child { node [optional] {*.hpp}}
 				}
 				child { node [selected] {CMakeLists.txt}}

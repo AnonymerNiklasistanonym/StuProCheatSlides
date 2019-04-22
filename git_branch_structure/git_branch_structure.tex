@@ -1,4 +1,4 @@
-% Based on a template (http://www.texample.net/media/tikz/examples/TEX/class-diagram.tex) by Remus Mihail Prunescu
+% Based on a template (http://www.texample.net/tikz/examples/class-diagram) by Remus Mihail Prunescu
 \documentclass{minimal}
 \usepackage[a4paper,margin=1cm,landscape]{geometry}
 \usepackage{tikz}
@@ -48,6 +48,11 @@
 	\textbf{image-processing-dev}
 	\nodepart{second}$\dots$
 };
+\node (shareddev) [abstract, rectangle split, rectangle split parts=2, above left=-2cm and -4cm of imageprocessingdev, dev, text width=4cm]
+{
+	\textbf{shared-dev}
+	\nodepart{second}$\dots$
+};
 \node (AuxNode02) [text width=5cm, below=of guidev] {};
 \node (guidevfeature) [abstract, rectangle split, rectangle split parts=2, left=of AuxNode02, feature, text width=4cm]
 {
@@ -76,9 +81,10 @@
     \draw[myarrow] (guidev.north) -- ++(0,0) -| (dev.south);
     \draw[line] (AuxNode01.south) --++(0,0) -| (communicationdev.east);
     \draw[line] (AuxNode01.south) -- ++(0,0) -| (imageprocessingdev.west);
+    \draw[line] (AuxNode01.south) -- ++(0,0) -| (shareddev.west);
     
-    \draw[myarrow] (guidevfeature.east) -- ++(0.8,0) -| (guidev.south);
-    \draw[line] (guidevfeature2.west) -- ++(-0.8,0) -| (guidevfeature.east);
+    \draw[myarrow] (guidevfeature.east) -- ++(0,0) -| (guidev.south);
+    \draw[line] (guidevfeature2.west) -- ++(-0,0) -| (guidevfeature.east);
     
     \draw[myarrow] (guidevfeaturepart.north) -- ++(0,0) -| (guidevfeature.south);
     \draw[line] (guidevfeaturepart2.west) -- ++(0,0) -| (guidevfeaturepart.north);
