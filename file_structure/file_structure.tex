@@ -20,28 +20,44 @@
 grow via three points={one child at (0.5,-0.7) and two children at (0.5,-0.7) and (0.5,-1.4)},
 edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 \node [fill=black, text=white] {git repository} 
-	child { node [generated] {bin (automatic generated build output) [ignored]}
+	child { node [generated] {bin (automatic generated build output) [git-ignored]}
 		child { node [generated] {docs (generated HTML documentation hierarchy)}}
-		child { node [generated] {module (gui/communication/image\_processing) executables and instructions}}
+		child { node [generated] {gui/communication/image\_processing (module executables)}
+            child { node [optional] {on Windows this is a directory that contains the .exe and DLLs}}
+        }
+        child [missing] {}
+        child { node [generated] {gui/communication/image\_processing\_instructions.pdf (module instructions)}}
 	}
+    child [missing] {}
 	child [missing] {}
+    child [missing] {}
 	child [missing] {}
 	child { node [directory] {doc (doxygen documentation)}
-		child { node [optional] {doc\_section}
-			child { node [optional] {*.md}}
-		}
-		child [missing] {}
-		child { node [directory] {res (documentation resources)}
-			child { node [optional] {*.svg/*.png/*.jpg/other}}
-		}
-		child { node [ignore] {.gitignore}}
+        child { node [ignore] {.gitignore}}
+        child { node [generated] {build (doxygen generated html output) [git-ignored]}}
 		child { node [script] {build.sh}}
 		child { node [script] {clean.sh}}
-		child { node [selected ] {Doxyfile}}
+        child { node [script] {dist.sh}}
+		child { node [selected] {Doxyfile}}
 		child { node {main\_page.md}}
+        child { node [directory] {pages (if its too much for one page create a section)}
+            child { node [optional] {doc\_section/*.md}}
+        }
 		child { node [readme] {README.md}}
-		child { node [optional] {*.md}}
+        child { node [directory] {res (documentation resources)}
+            child { node [optional] {*.svg/*.png/*.jpg/\dots}}
+        }
+        child [missing] {}
+        child { node [generated] {reports (reports for some project stats) [git-ignored]}
+            child { node [optional] {*.txt/*.md/\dots}}
+        }
 	}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
 	child [missing] {}
 	child [missing] {}
 	child [missing] {}
@@ -49,87 +65,192 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 	child [missing] {}
 	child [missing] {}
 	child [missing] {}
-	child [missing] {}
-	child [missing] {}
-	child [missing] {}
-	child { node [directory] {instructions (PDF instructions for each module)}
+	child { node [directory] {instructions (PDF instructions that explain how to use the built executables as end user)}
 		child { node [directory] {module (gui/communication/image\_processing)}
-				child { node [directory] {res (instruction resources)}
-					child { node [optional] {*.pdf/*.png/*.jpg/other}}
-				}
-				child { node [ignore] {.gitignore}}
+                child { node [ignore] {.gitignore}}
+                child { node [generated] {build (latex generated output) [git-ignored]}}
 				child { node [script] {build.sh}}
 				child { node [script] {clean.sh}}
+                child { node [script] {dist.sh}}
 				child { node {instructions.tex}}
+                child { node [directory] {res (instruction resources)}
+                    child { node [optional] {*.pdf/*.png/*.jpg/\dots}}
+                }
 		}
+        child { node [ignore] {.gitignore}}
 		child { node [script] {build.sh}}
 		child { node [script] {clean.sh}}
+        child { node [script] {dist.sh}}
 		child { node [readme] {README.md}}
 	}
+    child { node [directory] {misc (code/other things from advisors)}
+        child { node [optional] {misc\_directory/\dots}
+            child { node [optional] {\dots}}
+        }
+    }
+    child [missing] {}
+    child [missing] {}
+    child { node [directory] {res (other resources like the project logo)}
+        child { node [ignore] {.gitignore}}
+        child { node [readme] {README.md}}
+        child { node [optional] {resource\_section}
+            child { node [optional] {resource\_section/*.svg/\dots}}
+        }
+    }
+    child [missing] {}
+    child [missing] {}
 	child { node [directory] {scripts}
-		child { node [optional] {script\_section}
-			child { node [optional] {*.sh}}
+        child { node [readme] {README.md}}
+		child { node [directory] {script\_section (a group of scripts for one specific purpose)}
+			child { node [optional] {script\_section/*.sh}}
 		}
-		child [missing] {}
-		child { node [script] {build.sh}}
-		child { node [script] {clean.sh}}
-		child { node [readme] {README.md}}
-		child { node [script] {test.sh}}
-		child { node [optional] {*.sh}}
 	}
 	child [missing] {}
 	child [missing] {}
-	child [missing] {}
-	child [missing] {}
-	child [missing] {}
-	child [missing] {}
-	child [missing] {}
-	child { node [directory] {src (c++ source code)}
-		child { node [directory] {module (gui/communication/image\_processing) + shared}
-			child { node [directory] {tests (c++ module unit tests)}
-				child { node [optional]{test\_*.cpp}}
-			}
-			child [missing] {}
-			child { node [directory] {src (c++ module source code/headers)}
-				child { node [optional] {code\_section}
-					child { node [optional] {*.cpp/*.hpp/other}}
-				}
-				child [missing] {}
-				child { node [directory] {include (c++ module shared headers)}
-					child { node [optional] {*.hpp}}
-				}
-				child { node [selected] {CMakeLists.txt}}
-				child { node {main.cpp}}
-				child { node [optional] {*.cpp/*.hpp/other}}
-			}
-			child { node [directory] {vendor}
-				child { node [optional]{submodule}}
-			}
-			child [missing] {}
-			child { node [ignore] {.gitignore}}
-			child { node [script] {build.sh}}
-			child { node [script] {clean.sh}}
+	child { node [directory] {src (source code)}
+		child { node [directory] {gui/communication/image\_processing (executable for each module)}
+            child { node [ignore] {.gitignore}}
+            child { node [generated] {build [git-ignored]}}
+            child { node [script] {build.sh}}
+            child { node [script] {clean.sh}}
+            child { node [selected] {CMakeLists.txt (executable)}}
+            child { node [script] {dist.sh}}
+            child { node [directory] {emulators (emulate other modules/things to test this module without them)}
+                child { node [directory] {emulator\_section}
+                    child { node [ignore] {.gitignore}}
+                    child { node [generated] {build [git-ignored]}}
+                    child { node [script] {build.sh}}
+                    child { node [script] {clean.sh}}
+                    child { node [selected] {CMakeLists.txt (executable)}}
+                    child { node [script] {run.sh}}
+                    child { node [optional] {*.cpp}}
+                }
+            }
+            child { node [directory] {headers (internal)}
+                child { node [optional] {header\_section/*.hpp}}
+            }
+            child [missing] {}
+            child { node [directory] {include (shared)}
+                child { node [optional] {header\_section/*.hpp}}
+            }
+            child [missing] {}
+            child { node [directory] {src (source files)}
+                child { node [optional] {source\_code\_section/*.cpp}}
+                child { node {main.cpp}}
+            }
+            child [missing] {}
+            child [missing] {}
+            child { node [directory] {tests (module specific tests)}
+                child { node [directory] {test\_section}
+                    child { node [selected] {CMakeLists.txt (test)}}
+                    child { node [optional] {test\_*.cpp}}
+                }
+            }
+            child { node [script] {test.sh}}
 			child { node [readme] {README.md}}
-			child { node [script] {test.sh}}
-			child [missing] {}
-			child [missing] {}
-			child [missing] {}
-			child [missing] {}
+            child { node [script] {run.sh}}
+            child { node [directory] {vendor}
+                child { node [optional]{submodule}}
+            }      
 		}
-		child { node [ignore] {.gitignore}}
-		child { node [script] {build.sh}}
-		child { node [script] {clean.sh}}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child [missing] {}
+        child { node [directory] {shared (static librarys for shared access)}
+            child { node [ignore] {.gitignore}}
+            child { node [script] {clean.sh}}
+            child { node [script] {test.sh}}
+            child { node [directory] {libs (static libraries that easily add packages/headers for all shared libraries)}
+                child { node [selected] {CMakeLists.txt (static library)}}
+            }
+            child { node [readme] {README.md}}
+            child { node [directory] {shared\_library\_name (one specific functionality)}
+                child { node [ignore] {.gitignore}}
+                child { node [script] {clean.sh}}
+                child { node [selected] {CMakeLists.txt (static library)}}
+                child { node [directory] {examples (examples for better documentation and reference)}
+                    child { node [directory] {example\_section}
+                        child { node [ignore] {.gitignore}}
+                        child { node [generated] {build [git-ignored]}}
+                        child { node [script] {build.sh}}
+                        child { node [script] {clean.sh}}
+                        child { node [selected] {CMakeLists.txt (executable)}}
+                        child { node [script] {run.sh}}
+                        child { node [optional] {*.cpp (source files)}}
+                    }
+                }
+                child { node [directory] {headers (internal)}
+                    child { node [optional] {header\_section/*.hpp}}
+                }
+                child [missing] {}
+                child { node [directory] {include (shared)}
+                    child { node [optional] {header\_section/*.hpp}}
+                }
+                child [missing] {}
+                child { node [directory] {src (source files)}
+                    child { node [optional] {source\_code\_section/*.cpp}}
+                }
+                child [missing] {}
+                child { node [directory] {tests (library tests)}
+                    child { node [directory] {test\_section}
+                        child { node [selected] {CMakeLists.txt (test)}}
+                        child { node [optional] {test\_*.cpp}}
+                    }
+                }
+                child { node [script] {test.sh}}
+                child { node [readme] {README.md}}
+            }
+            child { node [directory] {vendor}
+                child { node [optional]{submodule}}
+            }        
+        }
 		child { node [readme] {README.md}}
 		child { node [script] {test.sh}}
 	}
 	child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
 	child [missing] {}
-	child [missing] {}
-	child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
+    child [missing] {}
 	child [missing] {}
 	child [missing] {}
 	child { node [ignore] {.gitattributes}}
 	child { node [ignore] {.gitignore}}
+    child { node [selected] {Makefile}}
 	child { node [readme] {README.md}};
 \end{tikzpicture}
 \end{document}
