@@ -290,6 +290,17 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{Rebase $\gg$ Edit one* specific commit}
+    \begin{itemize}
+        \item * If you edit one commit the hashes of all following commits will change also which can break repositories!
+        \item You rebase to the commit hash before the commit you want to replace/change
+        \item You change \mintinline{sh}{pick} to \mintinline{sh}{edit}
+        \item You reset the changes
+        \inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_rebase_04_example_remove_directory.sh}
+        \item If the commits were already pushed you probably need something like \mintinline{sh}{git push --force} to overwrite the old commits on the remote repository
+    \end{itemize}
+\end{frame}
+
 \section{Undos}
 
 \begin{frame}{Undos}
@@ -312,6 +323,13 @@
 	\inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_revert_01_revert.sh}
 	\item In summary its a safe and team-friendly alternative to \mintinline{sh}{git reset}
 \end{itemize}
+\end{frame}
+
+\begin{frame}{Undos $\gg$ Reset local repository}
+    \begin{itemize}
+        \item You have the option to replace all local files/progress with the remote repository files/progress:
+        \inputminted[bgcolor=lightGreyCustom,fontsize=\scriptsize]{sh}{./resources/git_reset_to_remote.sh}
+    \end{itemize}
 \end{frame}
 
 
