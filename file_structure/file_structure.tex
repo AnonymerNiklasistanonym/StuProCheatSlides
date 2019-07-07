@@ -23,7 +23,7 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 	child { node [generated] {bin (automatic generated build output) [git-ignored]}
 		child { node [generated] {docs (generated HTML documentation hierarchy)}}
 		child { node [generated] {gui/communication/image\_processing (module executables)}
-            child { node [optional] {on Windows this is a directory that contains the .exe and DLLs}}
+            child { node [optional] {on Windows this is a directory if for example DLLs are necessary}}
         }
         child [missing] {}
         child { node [generated] {gui/communication/image\_processing\_instructions.pdf (module instructions)}}
@@ -75,14 +75,12 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 				child { node [script] {clean.sh}}
                 child { node [script] {dist.sh}}
 				child { node {instructions.tex}}
+                child { node [readme] {README.md}}
                 child { node [directory] {res (instruction resources)}
                     child { node [optional] {*.pdf/*.png/*.jpg/\dots}}
                 }
 		}
         child { node [ignore] {.gitignore}}
-		child { node [script] {build.sh}}
-		child { node [script] {clean.sh}}
-        child { node [script] {dist.sh}}
 		child { node [readme] {README.md}}
 	}
     child { node [directory] {misc (code/other things from advisors)}
@@ -105,8 +103,10 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
         child { node [readme] {README.md}}
 		child { node [directory] {script\_section (a group of scripts for one specific purpose)}
 			child { node [optional] {script\_section/*.sh}}
+            child { node [readme] {README.md}}
 		}
 	}
+    child [missing] {}
 	child [missing] {}
 	child [missing] {}
 	child { node [directory] {src (source code)}
@@ -115,7 +115,7 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
             child { node [generated] {build [git-ignored]}}
             child { node [script] {build.sh}}
             child { node [script] {clean.sh}}
-            child { node [selected] {CMakeLists.txt (executable)}}
+            child { node [selected] {CMakeLists.txt (executable with tests)}}
             child { node [script] {dist.sh}}
             child { node [directory] {emulators (emulate other modules/things to test this module without them)}
                 child { node [directory] {emulator\_section}
@@ -124,8 +124,15 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
                     child { node [script] {build.sh}}
                     child { node [script] {clean.sh}}
                     child { node [selected] {CMakeLists.txt (executable)}}
+                    child { node [directory] {headers (internal)}
+                        child { node [optional] {*.hpp}}
+                    }
+                    child [missing] {}
+                    child { node [readme] {README.md}}
                     child { node [script] {run.sh}}
-                    child { node [optional] {*.cpp}}
+                    child { node [directory] {src (source files)}
+                        child { node [optional] {*.cpp}}
+                    }
                 }
             }
             child { node [directory] {headers (internal)}
@@ -143,16 +150,13 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
             child [missing] {}
             child [missing] {}
             child { node [directory] {tests (module specific tests)}
-                child { node [directory] {test\_section}
-                    child { node [selected] {CMakeLists.txt (test)}}
-                    child { node [optional] {test\_*.cpp}}
-                }
+                child { node [optional] {test\_section/test\_*.cpp}}
             }
             child { node [script] {test.sh}}
 			child { node [readme] {README.md}}
             child { node [script] {run.sh}}
             child { node [directory] {vendor}
-                child { node [optional]{submodule}}
+                child { node [optional]{submodule/copied files/\dots}}
             }      
 		}
         child [missing] {}
@@ -177,16 +181,16 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
         child [missing] {}
         child { node [directory] {shared (static librarys for shared access)}
             child { node [ignore] {.gitignore}}
-            child { node [script] {clean.sh}}
-            child { node [script] {test.sh}}
             child { node [directory] {libs (static libraries that easily add packages/headers for all shared libraries)}
                 child { node [selected] {CMakeLists.txt (static library)}}
+                child { node [readme] {README.md}}
             }
+            child [missing] {}
             child { node [readme] {README.md}}
             child { node [directory] {shared\_library\_name (one specific functionality)}
                 child { node [ignore] {.gitignore}}
                 child { node [script] {clean.sh}}
-                child { node [selected] {CMakeLists.txt (static library)}}
+                child { node [selected] {CMakeLists.txt (static library with tests)}}
                 child { node [directory] {examples (examples for better documentation and reference)}
                     child { node [directory] {example\_section}
                         child { node [ignore] {.gitignore}}
@@ -194,8 +198,15 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
                         child { node [script] {build.sh}}
                         child { node [script] {clean.sh}}
                         child { node [selected] {CMakeLists.txt (executable)}}
+                        child { node [directory] {headers (internal)}
+                            child { node [optional] {*.hpp}}
+                        }
+                        child [missing] {}
+                        child { node [readme] {README.md}}
                         child { node [script] {run.sh}}
-                        child { node [optional] {*.cpp (source files)}}
+                        child { node [directory] {src (source files)}
+                            child { node [optional] {*.cpp}}
+                        }
                     }
                 }
                 child { node [directory] {headers (internal)}
@@ -211,10 +222,7 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
                 }
                 child [missing] {}
                 child { node [directory] {tests (library tests)}
-                    child { node [directory] {test\_section}
-                        child { node [selected] {CMakeLists.txt (test)}}
-                        child { node [optional] {test\_*.cpp}}
-                    }
+                    child { node [optional] {test\_section/test\_*.cpp}}
                 }
                 child { node [script] {test.sh}}
                 child { node [readme] {README.md}}
@@ -224,9 +232,7 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
             }        
         }
 		child { node [readme] {README.md}}
-		child { node [script] {test.sh}}
 	}
-	child [missing] {}
     child [missing] {}
     child [missing] {}
     child [missing] {}
@@ -252,6 +258,9 @@ edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
 	child [missing] {}
 	child { node [ignore] {.gitattributes}}
 	child { node [ignore] {.gitignore}}
+    child { node [ignore] {.gitlab-ci.yml}}
+    child { node [ignore] {.gitmodules}}
+    child { node [readme] {LICENSE}}
     child { node [selected] {Makefile}}
 	child { node [readme] {README.md}};
 \end{tikzpicture}
